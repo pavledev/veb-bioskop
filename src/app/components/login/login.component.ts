@@ -21,5 +21,5 @@ import { RouterLink } from '@angular/router';
 })
 export class LoginComponent
 {
-
+    public hidePassword: boolean = true;
 }
