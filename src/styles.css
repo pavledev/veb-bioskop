@@ -2,6 +2,7 @@
 html, body {
     height: 100%;
     font-size: 1.125em;
+    color: white;
     background-color: #1e2124;
 }
 
@@ -92,15 +93,18 @@ mat-toolbar {
     transform: scale(1.1);
 }
 
+mat-card-header {
+    justify-content: center;
+    text-align: center;
+}
+
 mat-card-title {
     font-size: 0.89rem !important;
     font-weight: bold !important;
-    color: white;
 }
 
 mat-card-content {
     font-size: 0.95rem;
-    color: white;
 }
 
 mat-card-content .movie-title {
@@ -130,4 +134,13 @@ button[mat-button] {
 
 button[mat-button]:hover {
     background-color: rgba(63, 81, 181, 0.1);
+}
+
+.full-width {
+    display: block;
+    width: 100%;
+}
+
+.password-toggle {
+    cursor: pointer;
 }
