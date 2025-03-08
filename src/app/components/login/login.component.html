@@ -1,0 +1,26 @@
+<mat-card class="auth-card">
+    <mat-card-header>
+        <h1>Please login</h1>
+    </mat-card-header>
+    <mat-card-content>
+        <form>
+            <mat-form-field class="full-width">
+                <mat-label>Email</mat-label>
+                <input type="text" matInput placeholder="Input your email...">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput placeholder="Input your password...">
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-flat-button>
+            <mat-icon>login</mat-icon> Prijavite se
+        </button>
+        <a routerLink="/signup" mat-button>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Create an account
+        </a>
+    </mat-card-actions>
+</mat-card>
+
