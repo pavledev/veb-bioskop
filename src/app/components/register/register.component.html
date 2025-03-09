@@ -1,1 +1,87 @@
-<p>register works!</p>
+<div class="container">
+    <mat-card class="auth-card">
+        <mat-card-header>
+            <h2>Registracija</h2>
+        </mat-card-header>
+        <mat-card-content>
+            <form class="form-container">
+                <div class="row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Ime</mat-label>
+                        <mat-icon matPrefix fontIcon="person"/>
+                        <input type="text" matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Prezime</mat-label>
+                        <mat-icon matPrefix fontIcon="person"/>
+                        <input type="text" matInput>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <mat-icon matPrefix fontIcon="email"/>
+                        <input type="text" matInput [formControl]="emailFormControl">
+                        @if (emailFormControl.hasError('required')) {
+                            <mat-error>Email is <strong>required</strong></mat-error>
+                        }
+                        @if (emailFormControl.hasError('email') && !emailFormControl.hasError('required')) {
+                            <mat-error>Please enter a valid email address</mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Korisničko ime</mat-label>
+                        <mat-icon matPrefix fontIcon="person"/>
+                        <input type="text" matInput>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Lozinka</mat-label>
+                        <mat-icon matPrefix fontIcon="lock"/>
+                        <input type="text" matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Potvrda lozinke</mat-label>
+                        <mat-icon matPrefix fontIcon="lock"/>
+                        <input type="text" matInput>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Broj telefona</mat-label>
+                        <mat-icon matPrefix fontIcon="phone"/>
+                        <input type="text" matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Mesto</mat-label>
+                        <mat-icon matPrefix fontIcon="location_on"/>
+                        <input type="text" matInput>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Ulica</mat-label>
+                        <mat-icon matPrefix fontIcon="location_on"/>
+                        <input type="text" matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Broj</mat-label>
+                        <mat-icon matPrefix fontIcon="location_on"/>
+                        <input type="text" matInput>
+                    </mat-form-field>
+                </div>
+            </form>
+        </mat-card-content>
+        <mat-card-actions class="actions-container">
+            <p class="login-text">
+                Već imate nalog?
+                <a routerLink="/prijava" mat-button>Prijavite se</a>
+            </p>
+            <button mat-flat-button color="primary" class="full-width">
+                <mat-icon>login</mat-icon>
+                Registrujte se
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</div>
