@@ -33,10 +33,16 @@
     <div class="cards-container">
         <mat-card class="movie-card" appearance="outlined" *ngFor="let movie of movies">
             <div class="image-container">
-                <img mat-card-image src="{{movie.posterPath}}" alt="Photo of a Shiba Inu">
+                <a [routerLink]="['/filmovi', getSlug(movie.title)]">
+                    <img mat-card-image src="{{movie.posterPath}}" alt="{{movie.title}}">
+                </a>
             </div>
             <mat-card-content>
-                <p class="movie-title">{{ movie.title }}</p>
+                <p class="movie-title">
+                    <a [routerLink]="['/filmovi', getSlug(movie.title)]">
+                        {{ movie.title }}
+                    </a>
+                </p>
                 <p>Početak prikazivanja:</p>
             </mat-card-content>
             <mat-card-actions>
