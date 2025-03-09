@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
+import {RouterLink} from '@angular/router';
 
 @Component({
     selector: 'app-movies',
@@ -15,7 +16,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
         MatCardModule,
         MatButtonModule,
         MatIconModule,
-        MatExpansionModule
+        MatExpansionModule,
+        RouterLink
     ],
     templateUrl: './movies.component.html',
     styleUrl: './movies.component.css',
@@ -53,5 +55,13 @@ export class MoviesComponent implements OnInit
                 }));
             })
             .catch((e: AxiosError) => this.error = `${e.code}: ${e.message}`);
+    }
+
+    getSlug(title: string): string
+    {
+        return title
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '');
     }
 }
