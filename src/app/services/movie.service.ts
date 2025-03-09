@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import axios, { AxiosInstance } from 'axios';
+import axios, {AxiosInstance, AxiosResponse} from 'axios';
 
 @Injectable()
 export class MovieService
@@ -16,7 +16,7 @@ export class MovieService
         });
     }
 
-    async getMovies()
+    async getMovies(): Promise<AxiosResponse<any, any>>
     {
         return this.client.post('/v1/movies/search/advanced', {});
     }
