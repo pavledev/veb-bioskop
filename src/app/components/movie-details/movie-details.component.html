@@ -1,1 +1,47 @@
-<p>movie-details works!</p>
+<div class="container">
+    <div class="movie-details-container">
+        <!-- Left: Movie Poster -->
+        <div class="movie-poster">
+            <img src="{{movie?.posterPath}}" alt="{{movie?.title}}">
+        </div>
+
+        <!-- Right: Movie Information -->
+        <div class="movie-info">
+            <h1 class="movie-title">The Dark Knight</h1>
+            <p class="movie-description">
+                When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the
+                people of Gotham.
+            </p>
+
+            <div class="movie-actions">
+                <button class="cart-button">
+                    <i class="fas fa-shopping-cart"></i> Dodaj u korpu
+                </button>
+                <button class="trailer-button">
+                    <i class="fas fa-play"></i> Pogledaj Trailer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <div class="movie-gallery">
+        <h2>Galerija</h2>
+        <div class="gallery-images">
+            <img src="gallery1.jpg" alt="Gallery Image 1">
+            <img src="gallery2.jpg" alt="Gallery Image 2">
+            <img src="gallery3.jpg" alt="Gallery Image 3">
+        </div>
+    </div>
+
+    <!-- User Reviews Section -->
+    <div class="movie-reviews">
+        <h2>Recenzije</h2>
+        <div class="review">
+            <p><strong>Marko</strong>: Fantastičan film, preporučujem!</p>
+        </div>
+        <div class="review">
+            <p><strong>Ana</strong>: Gluma i priča su nevjerojatni!</p>
+        </div>
+    </div>
+</div>
