@@ -137,10 +137,19 @@ button[mat-button]:hover {
 }
 
 .full-width {
-    display: block;
     width: 100%;
 }
 
 .password-toggle {
     cursor: pointer;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    gap: 0.89rem;
 }
