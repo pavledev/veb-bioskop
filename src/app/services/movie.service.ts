@@ -20,4 +20,9 @@ export class MovieService
     {
         return this.client.post('/v1/movies/search/advanced', {});
     }
+
+    async getMovieDetails(movieSlug: string | null): Promise<AxiosResponse<any, any>>
+    {
+        return this.client.get(`/v1/movies/${movieSlug}`);
+    }
 }
