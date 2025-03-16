@@ -1,0 +1,6 @@
+.loading-container {
+    margin-top: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
