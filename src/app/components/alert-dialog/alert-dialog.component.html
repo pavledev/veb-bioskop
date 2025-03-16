@@ -1,14 +1,46 @@
 <div mat-dialog-content class="dialog-container">
-    <div class="icon-wrapper">
-        <mat-icon>{{ getIcon() }}</mat-icon>
-    </div>
+    @switch (data.type) {
+        @case ('success') {
+            <div class="icon-wrapper success">
+                <span class="success-line success-tip"></span>
+                <span class="success-line success-long"></span>
+                <div class="success-ring"></div>
+            </div>
+        }
+        @case ('error') {
+            <div class="icon-wrapper error">
+            <span class="x-mark">
+                <span class="x-line x-left"></span>
+                <span class="x-line x-right"></span>
+            </span>
+            </div>
+        }
+        @case ('warning') {
+            <div class="icon-wrapper warning">
+                <div class="icon-content">!</div>
+            </div>
+        }
+        @case ('info') {
+            <div class="icon-wrapper info">
+                <div class="icon-content">i</div>
+            </div>
+        }
+    }
+
     <h2>{{ data.title }}</h2>
     <p>{{ data.message }}</p>
 </div>
-<div mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>OK</button>
 
-    @if (data.showCancel) {
-        <button mat-button (click)="dialogRef.close(false)">Cancel</button>
+<div mat-dialog-actions align="end">
+    <button mat-flat-button mat-dialog-close>
+        <mat-icon fontIcon="check"/>
+        Potvrdi
+    </button>
+
+    @if (data.showCancelButton) {
+        <button mat-stroked-button (click)="dialogRef.close(false)">
+            <mat-icon fontIcon="close"/>
+            Otkaži
+        </button>
     }
 </div>

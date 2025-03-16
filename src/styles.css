@@ -1,3 +1,6 @@
+:root {
+    --icon-color: var(--mat-sys-surface-tint);
+}
 
 html, body {
     height: 100%;
