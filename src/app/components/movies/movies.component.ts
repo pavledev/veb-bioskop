@@ -2,22 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../../services/movie.service';
 import { MovieModel } from '../../models/movie.model';
 import { AxiosError } from 'axios';
-import { NgForOf, NgOptimizedImage } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import {RouterLink} from '@angular/router';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
     selector: 'app-movies',
     imports: [
-        NgForOf,
         MatCardModule,
         MatButtonModule,
         MatIconModule,
         MatExpansionModule,
-        RouterLink
+        RouterLink,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatProgressSpinnerModule,
+        LoadingComponent
     ],
     templateUrl: './movies.component.html',
     styleUrl: './movies.component.css',
@@ -52,6 +59,7 @@ export class MoviesComponent implements OnInit
                     actors: movie.actors,
                     directors: movie.directors,
                     technologies: ["2D"],
+                    distributorName: movie.distributorName,
                 }));
             })
             .catch((e: AxiosError) => this.error = `${e.code}: ${e.message}`);
