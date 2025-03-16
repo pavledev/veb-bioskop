@@ -12,8 +12,12 @@ body {
 }
 
 .container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.flex-container {
     display: flex;
-    justify-content: center;
 }
 
 button[mat-flat-button] {
@@ -55,12 +59,12 @@ mat-toolbar {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 20%;
+    width: 30%;
     padding: 20px;
 }
 
 .cards-container {
-    width: 70%;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
@@ -130,19 +134,10 @@ mat-card-content .movie-title a:hover {
     color: gray;
 }
 
-mat-card-actions {
+.movie-card mat-card-actions {
     display: flex;
     justify-content: space-around;
     padding: 10px;
-}
-
-button[mat-button] {
-    color: #3f51b5;
-    font-weight: bold;
-}
-
-button[mat-button]:hover {
-    background-color: rgba(63, 81, 181, 0.1);
 }
 
 .full-width {
@@ -158,11 +153,55 @@ button[mat-button]:hover {
     flex-direction: column;
 }
 
-.row {
+.form-row {
     display: flex;
     gap: 0.89rem;
 }
 
+.half-form-row {
+    flex: 1;
+    max-width: calc(50% - 0.445rem);
+}
+
 mat-accordion {
     width: 100%;
+}
+
+.custom-container .mat-mdc-dialog-surface {
+    border-radius: 0;
+}
+
+.justify-content-center {
+    display: flex;
+    justify-content: center;
+}
+
+.align-items-center {
+    display: flex;
+    align-items: center;
+}
+
+mat-form-field {
+    width: 100%;
+    margin-bottom: 3%;
+}
+
+.auth-card {
+    margin-top: 3%;
+    padding: 1% 1%;
+    width: 40%;
+}
+
+.auth-card mat-card-actions {
+    padding: 0 0.89rem;
+}
+
+.actions-container {
+    display: flex;
+    flex-direction: column !important;
+    align-items: center;
+}
+
+.flex-column {
+    flex-direction: column;
 }
