@@ -1,14 +1,13 @@
-import { AddressModel } from './address.model';
-
 export interface UserModel
 {
-    userId: number;
     username: string;
-    passwordHash: string;
+    password: string;
     email: string;
     firstName: string;
     lastName: string;
     phoneNumber: string;
-    address: AddressModel;
+    city: string;
+    streetName: string;
+    streetNumber: string;
     favoriteGenres: string[];
 }
