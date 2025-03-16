@@ -8,6 +8,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -16,6 +17,7 @@ export const appConfig: ApplicationConfig = {
         provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
         provideFirestore(() => getFirestore()),
         provideAuth(() => getAuth()),
+        provideEnvironmentNgxMask(),
         { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
     ]
 };
