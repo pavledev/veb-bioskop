@@ -1,0 +1,19 @@
+<div class="gallery-dialog">
+    <button mat-icon-button class="close-button" (click)="close()">
+        <mat-icon>close</mat-icon>
+    </button>
+
+    @if (currentIndex > 0) {
+        <button class="gallery-arrow left" (click)="prevImage()">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+    }
+
+    <img [src]="data.images[currentIndex]" alt="Gallery Image" class="gallery-image">
+
+    @if (currentIndex < data.images.length - 1) {
+        <button class="gallery-arrow right" (click)="nextImage()">
+            <mat-icon>chevron_right</mat-icon>
+        </button>
+    }
+</div>
