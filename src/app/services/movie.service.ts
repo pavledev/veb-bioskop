@@ -11,7 +11,8 @@ export class MovieService
         this.client = axios.create({
             baseURL: 'https://app.cineplexx.rs/api',
             headers: {
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Accept-Language': 'sr'
             }
         });
     }
