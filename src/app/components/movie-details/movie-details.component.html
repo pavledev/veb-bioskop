@@ -63,13 +63,43 @@
             </div>
 
             <div class="movie-reviews">
-                <h2>Recenzije</h2>
-                <div class="review">
-                    <p><strong>Marko</strong>: Fantastičan film, preporučujem!</p>
+                <!-- Average Rating -->
+                <div class="average-rating">
+                    <span class="rating-score">{{ averageRating }} / 5</span>
+                    <div class="stars">
+                        <mat-icon *ngFor="let star of [1, 2, 3, 4, 5]" [class.filled]="star <= averageRating">star</mat-icon>
+                    </div>
+                    <p class="review-count">{{ totalReviews }} recenzija</p>
                 </div>
-                <div class="review">
-                    <p><strong>Ana</strong>: Gluma i priča su nevjerojatni!</p>
+
+                <!-- Rating Breakdown -->
+                <div class="rating-breakdown">
+                    <div class="rating-row" *ngFor="let star of [5, 4, 3, 2, 1]; let i = index">
+                        <span>{{ star }} <mat-icon class="star-icon">star</mat-icon></span>
+                        <div class="rating-bar">
+                            <div class="bar-fill" [style.width.%]="(ratingCounts[i] / (totalReviews || 1)) * 100"></div>
+                        </div>
+                        <span class="review-count">({{ ratingCounts[i] }})</span>
+                    </div>
                 </div>
+
+                <!-- Review Button -->
+                <button mat-raised-button color="primary">Napravite recenziju</button>
+
+                <!-- Filters -->
+                <div class="filters">
+                    <mat-select placeholder="Prikazi sve">
+                        <mat-option value="all">Prikazi sve</mat-option>
+                    </mat-select>
+
+                    <mat-select placeholder="Sortiraj po datumu (starije)">
+                        <mat-option value="oldest">Sortiraj po datumu (starije)</mat-option>
+                        <mat-option value="newest">Sortiraj po datumu (novije)</mat-option>
+                    </mat-select>
+                </div>
+
+                <!-- No Reviews Message -->
+                <p class="no-reviews" *ngIf="totalReviews === 0">Nisu pronađene recenzije!</p>
             </div>
         </div>
     }

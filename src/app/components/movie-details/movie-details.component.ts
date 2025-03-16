@@ -3,13 +3,14 @@ import { MovieService } from '../../services/movie.service';
 import { AxiosError } from 'axios';
 import { MovieModel } from '../../models/movie.model';
 import { ActivatedRoute } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgForOf, NgIf } from '@angular/common';
 import { LoadingComponent } from '../loading/loading.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { PosterDialogComponent } from '../poster-dialog/poster-dialog.component';
 import { GalleryDialogComponent } from '../gallery-dialog/gallery-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
     selector: 'app-movie-details',
@@ -17,7 +18,10 @@ import { GalleryDialogComponent } from '../gallery-dialog/gallery-dialog.compone
         LoadingComponent,
         DatePipe,
         MatButtonModule,
-        MatIcon
+        MatIcon,
+        MatSelectModule,
+        NgForOf,
+        NgIf
     ],
     templateUrl: './movie-details.component.html',
     styleUrl: './movie-details.component.css',
@@ -33,6 +37,9 @@ export class MovieDetailsComponent implements OnInit
 
     @ViewChild('galleryContainer', { static: false }) galleryContainer!: ElementRef;
 
+    averageRating = 0;
+    totalReviews = 0;
+    ratingCounts = [0, 0, 0, 0, 0]; // Counts for each rating (1-5 stars)
     ngOnInit(): void
     {
         const movieSlug: string | null = this.route.snapshot.paramMap.get('slug');
@@ -97,7 +104,6 @@ export class MovieDetailsComponent implements OnInit
                 posterPath: this.movie.posterPath,
                 title: this.movie.title
             },
-            width: '50vw',
             panelClass: 'custom-container'
         });
     }
