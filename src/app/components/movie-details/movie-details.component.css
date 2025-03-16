@@ -1,75 +1,132 @@
-/* Left: Poster */
-.movie-poster img {
-    width: 250px;
+.movie-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-/* Right: Movie Info */
+.movie-details {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+
+.movie-poster img {
+    width: 250px;
+    cursor: pointer;
+}
+
 .movie-info {
     flex: 1;
 }
 
 .movie-title {
     font-size: 28px;
-    margin-bottom: 10px;
+    margin: 0;
+}
+
+.movie-title span {
+    opacity: 0.8;
+}
+
+.movie-summary {
+    font-size: 0.9rem;
+}
+
+.dot::before {
+    content: " • ";
+    color: white;
 }
 
 .movie-description {
-    font-size: 16px;
-    color: #555;
+    font-size: 0.9rem;
     line-height: 1.6;
+    margin-bottom: 0;
 }
 
-/* Buttons */
+.movie-credits {
+    display: flex;
+    justify-content: space-between;
+    gap: 15%;
+}
+
+.movie-credits p {
+    flex: 1;
+}
+
+.movie-actors, .movie-directors, .movie-distributor {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.movie-actors span, .movie-directors span, .movie-distributor span {
+    font-weight: normal;
+}
+
 .movie-actions {
     margin-top: 15px;
     display: flex;
     gap: 10px;
 }
 
-button {
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
+.movie-gallery {
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    position: relative;
+    max-width: 1400px;
+    overflow: hidden;
 }
 
-.cart-button {
-    background-color: #28a745;
-    color: white;
-}
-
-.trailer-button {
-    background-color: #dc3545;
-    color: white;
-}
-
-button i {
-    font-size: 18px;
-}
-
-/* Gallery */
-.movie-gallery {
-    margin-top: 30px;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.gallery-images {
+.gallery-track {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     overflow-x: auto;
-    padding: 10px 0;
+    scroll-behavior: smooth;
+    width: 90%;
+    scrollbar-width: none;
 }
 
-.gallery-images img {
-    width: 150px;
-    border-radius: 5px;
+.gallery-track::-webkit-scrollbar {
+    display: none;
+}
+
+.gallery-track img {
+    max-width: 300px;
+    object-fit: cover;
+    flex-shrink: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.gallery-track img:hover {
+    transform: scale(1.1);
+    opacity: 0.85;
+}
+
+.gallery-arrow {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 14px;
+    font-size: 22px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    transition: 0.3s;
+    border-radius: 6px;
+}
+
+.gallery-arrow.left {
+    left: 10px;
+}
+
+.gallery-arrow.right {
+    right: 10px;
+}
+
+.gallery-arrow:hover {
+    background: rgba(0, 0, 0, 0.9);
 }
 
 /* Reviews */

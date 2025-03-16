@@ -1,47 +1,80 @@
 <div class="container">
-    <div class="movie-details-container">
-        <!-- Left: Movie Poster -->
-        <div class="movie-poster">
-            <img src="{{movie?.posterPath}}" alt="{{movie?.title}}">
-        </div>
 
-        <!-- Right: Movie Information -->
-        <div class="movie-info">
-            <h1 class="movie-title">The Dark Knight</h1>
-            <p class="movie-description">
-                When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the
-                people of Gotham.
-            </p>
+    @if (movie) {
+        <div class="movie-container">
+            <div class="movie-details">
+                <div class="movie-poster" (click)="openPosterModal()">
+                    <img src="{{movie.posterPath}}" alt="{{movie.title}}">
+                </div>
 
-            <div class="movie-actions">
-                <button class="cart-button">
-                    <i class="fas fa-shopping-cart"></i> Dodaj u korpu
-                </button>
-                <button class="trailer-button">
-                    <i class="fas fa-play"></i> Pogledaj Trailer
-                </button>
+                <div class="movie-info">
+                    <h1 class="movie-title">
+                        {{ movie.title }}
+                        <span>({{ movie.startDate | date:'yyyy' }})</span>
+                    </h1>
+                    <div class="movie-summary">
+                        <span>{{ movie.startDate | date:'dd.MM.yyyy' }}</span>
+                        <span class="dot"></span>
+                        <span>{{ movie.genres.join(', ') }}</span>
+                        <span class="dot"></span>
+                        <span>{{ formatDuration(movie.duration) }}</span>
+                        <span class="dot"></span>
+                        <span>{{ movie.technologies[0] }}</span>
+                    </div>
+                    <p class="movie-description">{{ movie.description }}</p>
+                    <div class="movie-credits">
+                        <p class="movie-actors">
+                            Glumci:
+                            <br>
+                            <span>{{ movie.actors.join(', ') }}</span>
+                        </p>
+                        <p class="movie-directors">
+                            Režiseri:
+                            <br>
+                            <span>{{ movie.directors.join(', ') }}</span>
+                        </p>
+                        <p class="movie-distributor">
+                            Distributor:
+                            <br>
+                            <span>{{ movie.distributorName }}</span>
+                        </p>
+                    </div>
+                    <div class="movie-actions">
+                        <button mat-flat-button class="cart-button">
+                            <mat-icon fontIcon="shopping_cart"/> Dodaj u korpu
+                        </button>
+                        <button mat-flat-button class="trailer-button">
+                            <mat-icon fontIcon="movie"/> Pogledaj trailer
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="movie-gallery">
+                <button class="gallery-arrow left" (click)="prevImage()">&#10094;</button>
+                <div class="gallery-track" #galleryContainer>
+
+                    @for (image of movie.gallery; track image; let idx = $index) {
+                        <img [src]="image" alt="Gallery Image" (click)="openGalleryDialog(idx)">
+                    }
+
+                </div>
+                <button class="gallery-arrow right" (click)="nextImage()">&#10095;</button>
+            </div>
+
+            <div class="movie-reviews">
+                <h2>Recenzije</h2>
+                <div class="review">
+                    <p><strong>Marko</strong>: Fantastičan film, preporučujem!</p>
+                </div>
+                <div class="review">
+                    <p><strong>Ana</strong>: Gluma i priča su nevjerojatni!</p>
+                </div>
             </div>
         </div>
-    </div>
+    }
 
-    <!-- Gallery Section -->
-    <div class="movie-gallery">
-        <h2>Galerija</h2>
-        <div class="gallery-images">
-            <img src="gallery1.jpg" alt="Gallery Image 1">
-            <img src="gallery2.jpg" alt="Gallery Image 2">
-            <img src="gallery3.jpg" alt="Gallery Image 3">
-        </div>
-    </div>
-
-    <!-- User Reviews Section -->
-    <div class="movie-reviews">
-        <h2>Recenzije</h2>
-        <div class="review">
-            <p><strong>Marko</strong>: Fantastičan film, preporučujem!</p>
-        </div>
-        <div class="review">
-            <p><strong>Ana</strong>: Gluma i priča su nevjerojatni!</p>
-        </div>
-    </div>
+    @if (!movie) {
+        <app-loading/>
+    }
 </div>
