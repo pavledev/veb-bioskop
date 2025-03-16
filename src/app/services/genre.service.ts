@@ -1,23 +1,23 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, Injector, runInInjectionContext } from '@angular/core';
 import { collection, Firestore, getDocs } from '@angular/fire/firestore';
+import { UtilityService } from './utility.service';
 
 @Injectable()
 export class GenreService
 {
-    constructor(private firestore: Firestore)
-    {
-    }
+    private injector = inject(Injector);
+    private firestore = inject(Firestore);
+    private utilityService = inject(UtilityService);
 
-    async getGenres(): Promise<string[]>
+    async getGenres()
     {
-        const genresCollection = collection(this.firestore, 'genres');
+        return runInInjectionContext(this.injector, async () =>
+        {
+            const genresCollection = collection(this.firestore, 'genres');
+            const promise = getDocs(genresCollection)
+                .then(querySnapshot => querySnapshot.docs.map(doc => doc.data()['name']));
 
-        return getDocs(genresCollection)
-            .then(querySnapshot => querySnapshot.docs.map(doc => doc.data()['name']))
-            .catch(error =>
-            {
-                console.error("Greška prilikom dohvatanja žanrova:", error);
-                return [];
-            });
+            return this.utilityService.catchError(promise);
+        });
     }
 }
