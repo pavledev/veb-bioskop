@@ -1,7 +1,6 @@
 export interface MovieModel
 {
     movieId: number;
-    imdbId: number;
     title: string;
     originalTitle: string;
     description: string;
@@ -14,4 +13,5 @@ export interface MovieModel
     actors: string[];
     directors: string[];
     technologies: string[];
+    distributorName: string;
 }
