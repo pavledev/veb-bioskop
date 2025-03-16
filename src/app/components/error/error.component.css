@@ -1,0 +1,10 @@
+.error-container {
+    margin-top: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.error-container span {
+    color: red;
+}
