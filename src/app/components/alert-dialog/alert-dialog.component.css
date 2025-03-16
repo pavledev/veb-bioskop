@@ -1,0 +1,40 @@
+.dialog-container {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Icon wrapper with primary theme color */
+.icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 5px solid var(--mat-sys-surface-tint); /* Uses Angular Material primary color */
+    margin: 0 auto 10px;
+}
+
+.icon-wrapper mat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    color: var(--mat-sys-surface-tint);
+}
+
+/* Headings & Text */
+h2 {
+    margin: 0;
+    font-weight: bold;
+}
+
+p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #555;
+}
+
+button {
+    font-weight: bold;
+}

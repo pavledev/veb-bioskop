@@ -1,0 +1,14 @@
+<div mat-dialog-content class="dialog-container">
+    <div class="icon-wrapper">
+        <mat-icon>{{ getIcon() }}</mat-icon>
+    </div>
+    <h2>{{ data.title }}</h2>
+    <p>{{ data.message }}</p>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>OK</button>
+
+    @if (data.showCancel) {
+        <button mat-button (click)="dialogRef.close(false)">Cancel</button>
+    }
+</div>
