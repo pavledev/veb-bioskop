@@ -1,0 +1,78 @@
+<div class="container">
+    <div class="justify-content-center">
+        <mat-card class="auth-card">
+            <mat-card-header>
+                <h2>Prijava</h2>
+            </mat-card-header>
+            <mat-card-content>
+                <form [formGroup]="loginForm">
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                        <mat-label>Email</mat-label>
+                        <mat-icon matPrefix fontIcon="email"/>
+                        <input type="text" matInput formControlName="email">
+
+                        @if (loginForm.controls['email'].hasError('required')) {
+                            <mat-error>Email je obavezan!</mat-error>
+                        }
+
+                        @if (loginForm.controls['email'].hasError('email')) {
+                            <mat-error>Unesite ispravnu email adresu!</mat-error>
+                        }
+
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                        <mat-label>Lozinka</mat-label>
+                        <mat-icon matPrefix fontIcon="lock"/>
+                        <input type="text" matInput formControlName="password" #passwordField>
+                        <button
+                            mat-icon-button
+                            type="button"
+                            (click)="passwordField.type === 'password'
+                                    ? (passwordField.type = 'text')
+                                    : (passwordField.type = 'password')"
+                            matSuffix>
+
+                            @if (passwordField.type === 'password') {
+                                <mat-icon [fontIcon]="'visibility_off'"/>
+                            }
+
+                            @if (passwordField.type === 'text') {
+                                <mat-icon [fontIcon]="'visibility'"/>
+                            }
+                        </button>
+
+                        @if (loginForm.controls['password'].hasError('required')) {
+                            <mat-error>Lozinka je obavezna!</mat-error>
+                        }
+
+                    </mat-form-field>
+                </form>
+            </mat-card-content>
+            <mat-card-actions class="actions-container">
+                <p class="register-text">
+                    Nemate nalog?
+                    <a routerLink="/registracija" mat-button>Registrujte se</a>
+                </p>
+                <button mat-flat-button color="primary" class="full-width" [disabled]="isLoggingIn"
+                        (click)="loginUser()">
+
+                    <ng-container
+                        ngProjectAs=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
+
+                        @if (isLoggingIn) {
+                            <mat-spinner [mode]="'indeterminate'" diameter="30"/>
+                        } @else {
+                            <mat-icon fontIcon="login"/>
+                        }
+
+                    </ng-container>
+
+                    @if (!isLoggingIn) {
+                        Prijavite se
+                    }
+
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

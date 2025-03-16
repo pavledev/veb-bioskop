@@ -1,0 +1,218 @@
+<div class="container">
+
+    @if (error) {
+        <app-error errorMessage="{{error}}"/>
+    }
+
+    @if (genres) {
+        <div class="justify-content-center">
+            <mat-card class="auth-card">
+                <mat-card-header>
+                    <h2>Registracija</h2>
+                </mat-card-header>
+                <mat-card-content>
+                    <form [formGroup]="registerForm">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label>Ime</mat-label>
+                            <mat-icon matPrefix fontIcon="person"/>
+                            <input type="text" matInput formControlName="firstName">
+
+                            @if (registerForm.controls['firstName'].hasError('required')) {
+                                <mat-error>Ime je obavezno!</mat-error>
+                            }
+
+                            @if (registerForm.controls['firstName'].hasError('minlength')) {
+                                <mat-error>Ime mora imati najmanje 2 slova!</mat-error>
+                            }
+
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label>Prezime</mat-label>
+                            <mat-icon matPrefix fontIcon="person"/>
+                            <input type="text" matInput formControlName="lastName">
+
+                            @if (registerForm.controls['lastName'].hasError('required')) {
+                                <mat-error>Prezime je obavezno!</mat-error>
+                            }
+
+                            @if (registerForm.controls['lastName'].hasError('minlength')) {
+                                <mat-error>Prezime mora imati najmanje 2 slova!</mat-error>
+                            }
+
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label>Email</mat-label>
+                            <mat-icon matPrefix fontIcon="email"/>
+                            <input type="text" matInput formControlName="email">
+
+                            @if (registerForm.controls['email'].hasError('required')) {
+                                <mat-error>Email je obavezan!</mat-error>
+                            }
+
+                            @if (registerForm.controls['email'].hasError('email')) {
+                                <mat-error>Unesite ispravnu email adresu!</mat-error>
+                            }
+
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label>Korisničko ime</mat-label>
+                            <mat-icon matPrefix fontIcon="person"/>
+                            <input type="text" matInput formControlName="username">
+
+                            @if (registerForm.controls['username'].hasError('required')) {
+                                <mat-error>Korisničko ime je obavezno!</mat-error>
+                            }
+
+                            @if (registerForm.controls['username'].hasError('minlength')) {
+                                <mat-error>Korisničko ime mora imati najmanje 6 karaktera!</mat-error>
+                            }
+
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label>Lozinka</mat-label>
+                            <mat-icon matPrefix fontIcon="lock"/>
+                            <input type="text" matInput formControlName="password" #passwordField>
+                            <button
+                                mat-icon-button
+                                type="button"
+                                (click)="passwordField.type === 'password'
+                                    ? (passwordField.type = 'text')
+                                    : (passwordField.type = 'password')"
+                                matSuffix>
+
+                                @if (passwordField.type === 'password') {
+                                    <mat-icon [fontIcon]="'visibility_off'"/>
+                                }
+
+                                @if (passwordField.type === 'text') {
+                                    <mat-icon [fontIcon]="'visibility'"/>
+                                }
+
+                            </button>
+
+                            @if (registerForm.controls['password'].hasError('required')) {
+                                <mat-error>Lozinka je obavezna!</mat-error>
+                            }
+
+                            @if (registerForm.controls['password'].hasError('minlength')) {
+                                <mat-error>Lozinka mora imati najmanje 8 karaktera</mat-error>
+                            }
+
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label>Potvrda lozinke</mat-label>
+                            <mat-icon matPrefix fontIcon="lock"/>
+                            <input type="text" matInput formControlName="confirmPassword" #confirmPasswordField>
+                            <button
+                                mat-icon-button
+                                type="button"
+                                (click)="confirmPasswordField.type === 'password'
+                                    ? (confirmPasswordField.type = 'text')
+                                    : (confirmPasswordField.type = 'password')"
+                                matSuffix>
+
+                                @if (confirmPasswordField.type === 'password') {
+                                    <mat-icon [fontIcon]="'visibility_off'"/>
+                                }
+
+                                @if (confirmPasswordField.type === 'text') {
+                                    <mat-icon [fontIcon]="'visibility'"/>
+                                }
+
+                            </button>
+
+                            @if (registerForm.controls['confirmPassword'].hasError('required')) {
+                                <mat-error>Potvrda lozinke je obavezna!</mat-error>
+                            } @else if (registerForm.controls['confirmPassword'].hasError('notSame')) {
+                                <mat-error>Lozinke se ne podudaraju!</mat-error>
+                            }
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label>Broj telefona</mat-label>
+                            <mat-icon matPrefix fontIcon="phone"/>
+                            <input type="text" matInput formControlName="phoneNumber" mask="000-00-00-000">
+
+                            @if (registerForm.controls['phoneNumber'].hasError('required')) {
+                                <mat-error>Broj telefona je obavezan!</mat-error>
+                            }
+
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label>Mesto</mat-label>
+                            <mat-icon matPrefix fontIcon="location_on"/>
+                            <input type="text" matInput formControlName="city">
+
+                            @if (registerForm.controls['city'].hasError('required')) {
+                                <mat-error>Mesto je obavezno!</mat-error>
+                            }
+
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label>Ulica</mat-label>
+                            <mat-icon matPrefix fontIcon="location_on"/>
+                            <input type="text" matInput formControlName="streetName">
+
+                            @if (registerForm.controls['streetName'].hasError('required')) {
+                                <mat-error>Ulica je obavezna!</mat-error>
+                            }
+
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label>Broj</mat-label>
+                            <mat-icon matPrefix fontIcon="location_on"/>
+                            <input type="text" matInput formControlName="streetNumber">
+
+                            @if (registerForm.controls['streetNumber'].hasError('required')) {
+                                <mat-error>Broj je obavezan!</mat-error>
+                            }
+
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label>Omiljeni žanrovi</mat-label>
+                            <mat-icon matPrefix fontIcon="movie"/>
+                            <mat-select formControlName="favoriteGenres" multiple>
+
+                                @for (genre of genres; track genre) {
+                                    <mat-option [value]="genre">{{ genre }}</mat-option>
+                                }
+
+                            </mat-select>
+
+                            @if (registerForm.controls['favoriteGenres'].hasError('required')) {
+                                <mat-error>Najmanje jedan žanr je obavezan!</mat-error>
+                            }
+
+                        </mat-form-field>
+                    </form>
+                </mat-card-content>
+                <mat-card-actions class="actions-container">
+                    <p class="login-text">
+                        Već imate nalog?
+                        <a routerLink="/prijava" mat-button>Prijavite se</a>
+                    </p>
+                    <button mat-flat-button color="primary" class="full-width" [disabled]="isRegistering"
+                            (click)="registerUser()">
+
+                        <ng-container
+                            ngProjectAs=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
+
+                            @if (isRegistering) {
+                                <mat-spinner [mode]="'indeterminate'" diameter="30"/>
+                            } @else {
+                                <mat-icon fontIcon="person_add"/>
+                            }
+
+                        </ng-container>
+
+                        @if (!isRegistering) {
+                            Registrujte se
+                        }
+
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    } @else {
+        <app-loading/>
+    }
+</div>
