@@ -17,14 +17,47 @@
             <mat-icon>calendar_month</mat-icon>
             Repertoar
         </a>
-        <a routerLink="/prijava" mat-button>
-            <mat-icon>person</mat-icon>
-            Prijava
-        </a>
-        <a routerLink="/registracija" mat-button>
-            <mat-icon>person</mat-icon>
-            Registracija
-        </a>
+
+        @if (user$ | async; as user) {
+            <button mat-button [matMenuTriggerFor]="userMenu">
+                <mat-icon fontIcon="person"/>
+                {{ user.displayName }}
+                <mat-icon iconPositionEnd fontIcon="expand_more"/>
+            </button>
+
+            <mat-menu #userMenu="matMenu">
+                <button mat-menu-item routerLink="/profil">
+                    <mat-icon fontIcon="person"/>
+                    Profil
+                </button>
+                <button mat-menu-item routerLink="/rezervacije">
+                    <mat-icon fontIcon="movie"/>
+                    Rezervacije
+                </button>
+                <button mat-menu-item routerLink="/recenzije">
+                    <mat-icon fontIcon="reviews"/>
+                    Recenzije
+                </button>
+                <button mat-menu-item (click)="logout()">
+                    <mat-icon fontIcon="logout"/>
+                    Odjava
+                </button>
+            </mat-menu>
+        } @else {
+            <a routerLink="/prijava" mat-button>
+                <mat-icon fontIcon="person"/>
+                Prijava
+            </a>
+            <a routerLink="/registracija" mat-button>
+                <mat-icon fontIcon="person"/>
+                Registracija
+            </a>
+            <a routerLink="/korpa" mat-button>
+                <mat-icon fontIcon="shopping_cart"/>
+                Korpa
+            </a>
+        }
+
     </div>
 </mat-toolbar>
 
