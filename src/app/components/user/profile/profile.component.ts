@@ -121,8 +121,7 @@ export class ProfileComponent implements OnInit, OnDestroy
         if (error)
         {
             this.error = error.message;
-        }
-        else
+        } else
         {
             this.genres = genres;
         }
@@ -186,8 +185,7 @@ export class ProfileComponent implements OnInit, OnDestroy
         if (error)
         {
             this.snackBar.open("Greška pri ažuriranju profila!", "Zatvori", { duration: 3000 });
-        }
-        else
+        } else
         {
             this.snackBar.open("Profil je uspešno ažuriran!", "Zatvori", { duration: 3000 });
         }
@@ -195,12 +193,6 @@ export class ProfileComponent implements OnInit, OnDestroy
 
     async updatePassword()
     {
-        this.alertDialogService.openDialog('success', 'Success!', 'Your action was successful.').subscribe(result => {
-            if (result === false) {
-                console.log('User clicked cancel.');
-            }
-        });
-
         if (this.passwordForm.invalid)
         {
             return;
@@ -239,11 +231,14 @@ export class ProfileComponent implements OnInit, OnDestroy
 
         if (error)
         {
-            this.snackBar.open("Greška pri ažuriranju lozinke!", "Zatvori", { duration: 3000 });
-        }
-        else
+            this.alertDialogService.openDialog('error',
+                'Greška pri ažuriranju lozinke!',
+                'Došlo je do problema prilikom ažuriranja vaše lozinke. Pokušajte ponovo.');
+        } else
         {
-            this.snackBar.open("Lozinka je uspešno ažurirana!", "Zatvori", { duration: 3000 });
+            this.alertDialogService.openDialog('success',
+                'Lozinka ažurirana',
+                'Vaša lozinka je uspešno promenjena.');
         }
     }
 }
