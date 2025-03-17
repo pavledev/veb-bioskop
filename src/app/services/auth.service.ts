@@ -236,6 +236,6 @@ export class AuthService
         const credential = EmailAuthProvider.credential(currentUser.email!, password);
         const [reauthError] = await this.utilityService.catchError(reauthenticateWithCredential(currentUser, credential));
 
-        return reauthError ? "Pogrešna lozinka. Pokušajte ponovo." : null;
+        return reauthError ? 'Pogrešna lozinka. Pokušajte ponovo.' : null;
     }
 }
