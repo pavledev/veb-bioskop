@@ -92,7 +92,7 @@ export class AuthService
         }
 
         const [dbError] = await this.utilityService.catchError(
-            setDoc(doc(this.firestore, "users", firebaseUser.user.uid), user)
+            setDoc(doc(this.firestore, 'users', firebaseUser.user.uid), user)
         );
 
         if (dbError)
@@ -216,7 +216,7 @@ export class AuthService
 
     async updateUserDocument(uid: string, user: Partial<UserModel>)
     {
-        const userDocReference = doc(this.firestore, "users", uid);
+        const userDocReference = doc(this.firestore, 'users', uid);
         const [error] = await this.utilityService.catchError(
             updateDoc(userDocReference, user)
         );
@@ -230,7 +230,7 @@ export class AuthService
 
         if (!currentUser)
         {
-            return "Morate biti prijavljeni da biste ažurirali profil.";
+            return 'Morate biti prijavljeni da biste ažurirali profil.';
         }
 
         const credential = EmailAuthProvider.credential(currentUser.email!, password);
