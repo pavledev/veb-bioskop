@@ -3,7 +3,7 @@
     @if (movie) {
         <div class="movie-container">
             <div class="movie-details">
-                <div class="movie-poster" (click)="openPosterModal()">
+                <div class="movie-poster" (click)="openPosterDialog()">
                     <img src="{{movie.posterPath}}" alt="{{movie.title}}">
                 </div>
 
@@ -41,21 +41,23 @@
                     </div>
                     <div class="movie-actions">
                         <button mat-flat-button class="cart-button">
-                            <mat-icon fontIcon="shopping_cart"/> Dodaj u korpu
+                            <mat-icon fontIcon="shopping_cart"/>
+                            Dodaj u korpu
                         </button>
-                        <button mat-flat-button class="trailer-button">
-                            <mat-icon fontIcon="movie"/> Pogledaj trailer
-                        </button>
+                        <a mat-flat-button class="trailer-button" href="{{movie.trailerUrl}}" target="_blank">
+                            <mat-icon fontIcon="movie"/>
+                            Pogledaj trailer
+                        </a>
                     </div>
                 </div>
             </div>
 
             <div class="movie-gallery">
-                <button class="gallery-arrow left" (click)="prevImage()">&#10094;</button>
+                <button class="gallery-arrow left" (click)="previousImage()">&#10094;</button>
                 <div class="gallery-track" #galleryContainer>
 
-                    @for (image of movie.gallery; track image; let idx = $index) {
-                        <img [src]="image" alt="Gallery Image" (click)="openGalleryDialog(idx)">
+                    @for (image of movie.gallery; track image; let index = $index) {
+                        <img [src]="image" alt="Gallery Image" (click)="openGalleryDialog(index)">
                     }
 
                 </div>
@@ -63,43 +65,65 @@
             </div>
 
             <div class="movie-reviews">
-                <!-- Average Rating -->
-                <div class="average-rating">
-                    <span class="rating-score">{{ averageRating }} / 5</span>
-                    <div class="stars">
-                        <mat-icon *ngFor="let star of [1, 2, 3, 4, 5]" [class.filled]="star <= averageRating">star</mat-icon>
-                    </div>
-                    <p class="review-count">{{ totalReviews }} recenzija</p>
+                <div class="review-header">
+                    <h2>Recenzije</h2>
+                    <div class="date-range">March 2021 - February 2022</div>
                 </div>
-
-                <!-- Rating Breakdown -->
-                <div class="rating-breakdown">
-                    <div class="rating-row" *ngFor="let star of [5, 4, 3, 2, 1]; let i = index">
-                        <span>{{ star }} <mat-icon class="star-icon">star</mat-icon></span>
-                        <div class="rating-bar">
-                            <div class="bar-fill" [style.width.%]="(ratingCounts[i] / (totalReviews || 1)) * 100"></div>
+                <div class="flex-container" style="flex-wrap: wrap">
+                    <div class="flex-column">
+                        <div class="review-summary-item">
+                            <div class="review-title">Ukupan broj recenzija</div>
+                            <div class="review-value">
+                                {{ totalReviews }}
+                            </div>
                         </div>
-                        <span class="review-count">({{ ratingCounts[i] }})</span>
+
+                        <!-- Column 2: Average Rating -->
+                        <div class="review-summary-item">
+                            <div class="review-title">Prosečna ocena</div>
+                            <div class="rating-stars">
+                                <mat-icon *ngFor="let star of [1,2,3,4]">star</mat-icon>
+                                <mat-icon>star_half</mat-icon>
+                            </div>
+                        </div>
+
+                        <!-- Column 3: Rating Breakdown -->
+                        <div class="review-summary-item rating-breakdown">
+                            <div *ngFor="let rating of ratingDistribution" class="rating-row">
+                                <span class="rating-label">{{ rating.stars }}</span>
+                                <div class="rating-bar">
+                                    <div
+                                        class="rating-fill"
+                                        [ngStyle]="{ 'width': (rating.count / maxRatingCount) * 100 + '%', 'background-color': rating.color }">
+                                    </div>
+                                </div>
+                                <span class="rating-count">{{ rating.count }}</span>
+                            </div>
+                        </div>
+
+                        <div class="review-action">
+                            <p>Recenzirajte ovaj film</p>
+                            <p>Podelite mišljenje sa drugim korisnicima</p>
+                            <button mat-flat-button class="cart-button" (click)="openMovieReviewDialog()">
+                                <mat-icon fontIcon="reviews"></mat-icon>
+                                Napišite recenziju
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div *ngIf="(reviews$ | async)?.length === 0">
+                            <p>Nema recenzija za ovaj film.</p>
+                        </div>
+
+                        <div *ngFor="let review of reviews$ | async" class="review">
+                            <h3>{{ review.title }}</h3>
+                            <p><strong>Ocena:</strong> {{ review.rating }} / 10</p>
+                            <p>{{ review.content }}</p>
+                            <p class="review-meta">Objavljeno: {{ review.createdAt | date:'short' }}</p>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Review Button -->
-                <button mat-raised-button color="primary">Napravite recenziju</button>
-
-                <!-- Filters -->
-                <div class="filters">
-                    <mat-select placeholder="Prikazi sve">
-                        <mat-option value="all">Prikazi sve</mat-option>
-                    </mat-select>
-
-                    <mat-select placeholder="Sortiraj po datumu (starije)">
-                        <mat-option value="oldest">Sortiraj po datumu (starije)</mat-option>
-                        <mat-option value="newest">Sortiraj po datumu (novije)</mat-option>
-                    </mat-select>
-                </div>
-
-                <!-- No Reviews Message -->
-                <p class="no-reviews" *ngIf="totalReviews === 0">Nisu pronađene recenzije!</p>
             </div>
         </div>
     }
