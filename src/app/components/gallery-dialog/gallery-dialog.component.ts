@@ -27,7 +27,7 @@ export class GalleryDialogComponent
         this.dialogRef.close();
     }
 
-    prevImage(): void
+    previousImage(): void
     {
         if (this.currentIndex > 0)
         {
