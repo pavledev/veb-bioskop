@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
-import axios, {AxiosInstance, AxiosResponse} from 'axios';
+import { inject, Injectable } from '@angular/core';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { UtilityService } from './utility.service';
 
 @Injectable()
 export class MovieService
 {
     private client: AxiosInstance;
+    private utilityService = inject(UtilityService);
 
     constructor()
     {
@@ -17,13 +19,18 @@ export class MovieService
         });
     }
 
-    async getMovies(): Promise<AxiosResponse<any, any>>
+    async getMovies()
     {
-        return this.client.post('/v1/movies/search/advanced', {});
+        return this.utilityService.catchError(this.client.post('/v1/movies/search/advanced', {}));
     }
 
-    async getMovieDetails(movieSlug: string | null): Promise<AxiosResponse<any, any>>
+    async getMovieDetails(movieSlug: string | null)
     {
-        return this.client.get(`/v1/movies/${movieSlug}`);
+        return this.utilityService.catchError(this.client.get(`/v1/movies/${movieSlug}`));
+    }
+
+    async getTrailerURL(movieTitle: string)
+    {
+        return this.utilityService.catchError(this.client.post('/v1/movies/search/advanced', { title: movieTitle }));
     }
 }
