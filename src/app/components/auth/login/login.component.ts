@@ -48,6 +48,8 @@ export class LoginComponent
     {
         if (this.loginForm.invalid)
         {
+            Object.values(this.loginForm.controls).forEach(control => control.markAsDirty());
+
             return;
         }
 

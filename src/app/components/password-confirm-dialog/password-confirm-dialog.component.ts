@@ -42,6 +42,8 @@ export class PasswordConfirmDialogComponent
     {
         if (this.passwordForm.invalid)
         {
+            Object.values(this.passwordForm.controls).forEach(control => control.markAsDirty());
+
             return;
         }
 

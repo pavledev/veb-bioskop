@@ -106,6 +106,8 @@ export class RegisterComponent implements OnInit
     {
         if (this.registerForm.invalid)
         {
+            Object.values(this.registerForm.controls).forEach(control => control.markAsDirty());
+
             return;
         }
 
