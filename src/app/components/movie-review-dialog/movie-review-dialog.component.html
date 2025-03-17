@@ -1,0 +1,77 @@
+<h2 mat-dialog-title>Nova recenzija</h2>
+<mat-dialog-content>
+    <form [formGroup]="movieReviewForm">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Naslov</mat-label>
+            <mat-icon matPrefix fontIcon="description"/>
+            <input type="text" matInput formControlName="title">
+
+            @if (movieReviewForm.controls['title'].hasError('required')) {
+                <mat-error>
+                    Naslov je obavezan!
+                </mat-error>
+            }
+
+        </mat-form-field>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Sadržaj</mat-label>
+            <mat-icon matPrefix fontIcon="description"/>
+            <textarea type="text" matInput formControlName="content"></textarea>
+
+            @if (movieReviewForm.controls['content'].hasError('required')) {
+                <mat-error>
+                    Sadržaj je obavezan!
+                </mat-error>
+            }
+
+        </mat-form-field>
+
+        <label class="rating-label">Ocena*</label>
+        <div class="star-rating">
+
+            @for (star of stars; track $index) {
+                <mat-icon
+                    (click)="setRating($index + 1)"
+                    (mouseenter)="setHover($index + 1)"
+                    (mouseleave)="clearHover()"
+                    [ngClass]="{'selected': $index < rating, 'hovered': $index < hoveredRating}">
+                    {{ $index < (hoveredRating || rating) ? 'star' : 'star_border' }}
+                </mat-icon>
+            }
+
+        </div>
+
+        @if (movieReviewForm.controls['rating'].invalid && movieReviewForm.controls['rating'].dirty) {
+            <mat-error>
+                Ocena je obavezna!
+            </mat-error>
+        }
+
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-flat-button color="primary" [disabled]="isCreatingMovieReview"
+            (click)="addReview()">
+
+        <ng-container
+            ngProjectAs=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
+
+            @if (isCreatingMovieReview) {
+                <mat-spinner [mode]="'indeterminate'" diameter="30"/>
+            } @else {
+                <mat-icon fontIcon="add"/>
+            }
+
+        </ng-container>
+
+        @if (!isCreatingMovieReview) {
+            Napravi recenziju
+        }
+
+    </button>
+
+    <button mat-stroked-button (click)="cancel()">
+        <mat-icon fontIcon="close"/>
+        Otkaži
+    </button>
+</mat-dialog-actions>

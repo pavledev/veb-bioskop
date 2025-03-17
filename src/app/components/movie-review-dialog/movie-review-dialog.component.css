@@ -1,0 +1,31 @@
+form {
+    padding-top: 3%;
+}
+
+.star-rating {
+    display: flex;
+    gap: 2%;
+    cursor: pointer;
+    padding: 10px 5px;
+}
+
+.star-rating mat-icon {
+    font-size: 32px;
+    color: gray;
+    transition: color 0.2s ease-in-out;
+    padding: 1%;
+}
+
+.star-rating mat-icon.selected {
+    color: var(--icon-color);
+}
+
+.star-rating mat-icon.hovered {
+    color: var(--icon-color);
+    opacity: 0.92;
+    transition: color 0.15s ease-in-out;
+}
+
+.rating-label {
+    font-size: 18px;
+}
