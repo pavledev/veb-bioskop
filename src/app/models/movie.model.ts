@@ -1,6 +1,6 @@
 export interface MovieModel
 {
-    movieId: number;
+    movieId: string;
     title: string;
     originalTitle: string;
     description: string;
