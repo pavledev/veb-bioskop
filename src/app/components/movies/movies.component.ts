@@ -39,30 +39,33 @@ export class MoviesComponent implements OnInit
     {
     }
 
-    ngOnInit(): void
+    async ngOnInit()
     {
-        this.movieService
-            .getMovies()
-            .then(response =>
-            {
-                this.movies = response.data.map((movie: any) => ({
-                    movieId: movie.id,
-                    title: movie.title,
-                    originalTitle: movie.titleOriginalCalculated,
-                    description: movie.synopsis,
-                    startDate: movie.startDate,
-                    duration: movie.runTime,
-                    posterPath: movie.posterImage,
-                    trailerUrl: movie.trailerUrl,
-                    genres: movie.genres,
-                    gallery: movie.gallery,
-                    actors: movie.actors,
-                    directors: movie.directors,
-                    technologies: ["2D"],
-                    distributorName: movie.distributorName,
-                }));
-            })
-            .catch((e: AxiosError) => this.error = `${e.code}: ${e.message}`);
+        const [error, response] = await this.movieService.getMovies();
+
+        if (error)
+        {
+            this.error = error.message;
+        }
+        else
+        {
+            this.movies = response.data.map((movie: any) => ({
+                movieId: movie.id,
+                title: movie.title,
+                originalTitle: movie.titleOriginalCalculated,
+                description: movie.synopsis,
+                startDate: movie.startDate,
+                duration: movie.runTime,
+                posterPath: movie.posterImage,
+                trailerUrl: movie.trailerUrl,
+                genres: movie.genres,
+                gallery: movie.gallery,
+                actors: movie.actors,
+                directors: movie.directors,
+                technologies: ["2D"],
+                distributorName: movie.distributorName,
+            }));
+        }
     }
 
     getSlug(title: string): string
