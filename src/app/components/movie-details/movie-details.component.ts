@@ -13,7 +13,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MovieReviewDialogComponent } from '../movie-review-dialog/movie-review-dialog.component';
 import { MovieReviewModel } from '../../models/movie.review.model';
 import { MovieReviewService } from '../../services/movie.review.service';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable, switchMap } from 'rxjs';
+import { MatCardModule } from '@angular/material/card';
+import { UserService } from '../../services/user.service';
 
 @Component({
     selector: 'app-movie-details',
@@ -26,11 +28,12 @@ import { Observable } from 'rxjs';
         NgForOf,
         NgIf,
         NgStyle,
-        AsyncPipe
+        AsyncPipe,
+        MatCardModule
     ],
     templateUrl: './movie-details.component.html',
     styleUrl: './movie-details.component.css',
-    providers: [MovieService]
+    providers: [MovieService, UserService]
 })
 export class MovieDetailsComponent implements OnInit
 {
@@ -38,10 +41,12 @@ export class MovieDetailsComponent implements OnInit
     private readonly dialog: MatDialog = inject(MatDialog);
     private movieService: MovieService = inject(MovieService);
     private movieReviewService: MovieReviewService = inject(MovieReviewService);
+    private userService: UserService = inject(UserService);
 
     public movie: MovieModel | null = null;
     public error: string | null = null;
-    public reviews$: Observable<MovieReviewModel[]> = new Observable<MovieReviewModel[]>();
+    //public reviews$: Observable<MovieReviewModel[]> = new Observable<MovieReviewModel[]>();
+    public reviews$: Observable<(MovieReviewModel & { username: string | null })[]> = new Observable();
 
     @ViewChild('galleryContainer', { static: false }) galleryContainer!: ElementRef;
 
@@ -56,6 +61,7 @@ export class MovieDetailsComponent implements OnInit
         { stars: 1, count: 0, color: '#dc2626' }     // Red
     ];
     maxRatingCount = Math.max(...this.ratingDistribution.map(r => r.count));
+
     async ngOnInit()
     {
         const movieSlug: string | null = this.route.snapshot.paramMap.get('slug');
@@ -96,7 +102,21 @@ export class MovieDetailsComponent implements OnInit
                 this.movie.trailerUrl = response2.data[0].trailerUrl;
             }
 
-            this.reviews$ = this.movieReviewService.getReviewsByMovieId(this.movie.movieId);
+            //this.reviews$ = this.movieReviewService.getReviewsByMovieId(this.movie.movieId);
+            this.reviews$ = this.movieReviewService.getReviewsByMovieId(this.movie.movieId).pipe(
+                switchMap(reviews =>
+                {
+                    // Fetch usernames for each review
+                    const usernameObservables = reviews.map(review =>
+                        this.userService.getUsername(review.userId).then(username => ({
+                            ...review,
+                            username: username || 'Nepoznat korisnik'
+                        }))
+                    );
+
+                    return forkJoin(usernameObservables); // Convert array of Promises into Observable
+                })
+            );
         }
     }
 

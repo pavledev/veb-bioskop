@@ -111,17 +111,38 @@
                         </div>
                     </div>
 
-                    <div>
+                    <div class="reviews">
                         <div *ngIf="(reviews$ | async)?.length === 0">
                             <p>Nema recenzija za ovaj film.</p>
                         </div>
 
-                        <div *ngFor="let review of reviews$ | async" class="review">
-                            <h3>{{ review.title }}</h3>
-                            <p><strong>Ocena:</strong> {{ review.rating }} / 10</p>
-                            <p>{{ review.content }}</p>
-                            <p class="review-meta">Objavljeno: {{ review.createdAt | date:'short' }}</p>
-                        </div>
+                        <mat-card *ngFor="let review of reviews$ | async" class="review" appearance="outlined">
+                            <mat-card-header>
+                                <img mat-card-avatar [src]="['https://ui-avatars.com/api/?name=pavle']">
+                                <mat-card-title>{{ review.username }}</mat-card-title>
+                                <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+                            </mat-card-header>
+
+                            <mat-card-content>
+                                <p>
+                                    {{ review.title }}
+                                </p>
+                                <p>
+                                    {{ review.content }}
+                                </p>
+                            </mat-card-content>
+                            <mat-card-actions>
+                                <button mat-button>
+                                    <mat-icon fontIcon="edit"/>
+                                    Izmeni
+                                </button>
+                                <button mat-button>
+                                    <mat-icon fontIcon="delete"/>
+                                    Obriši
+                                </button>
+                            </mat-card-actions>
+                        </mat-card>
+
                     </div>
                 </div>
             </div>

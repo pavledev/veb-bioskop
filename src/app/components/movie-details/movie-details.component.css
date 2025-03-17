@@ -130,6 +130,7 @@
 }
 
 .movie-reviews {
+    max-width: 1400px;
     padding: 20px;
 }
 
@@ -163,7 +164,7 @@
 
 .review-summary-item {
     text-align: center;
-    margin-bottom: 15%;
+    margin-bottom: 5%;
 }
 
 .review-title {
@@ -238,5 +239,19 @@
 .rating-count {
     font-size: 0.9rem;
     width: 40px;
+    text-align: left;
+}
+
+.reviews {
+    flex: 1;
+    flex-direction: column;
+}
+
+.review {
+    margin-bottom: 2%;
+}
+
+.review mat-card-header {
+    justify-content: flex-start;
     text-align: left;
 }
