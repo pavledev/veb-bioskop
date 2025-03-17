@@ -1,5 +1,5 @@
 :root {
-    --icon-color: var(--mat-sys-surface-tint);
+    --icon-color: var(--mat-sys-primary);
 }
 
 html, body {
@@ -23,7 +23,7 @@ body {
     display: flex;
 }
 
-button[mat-flat-button], button[mat-stroked-button] {
+button[mat-flat-button], button[mat-stroked-button], a[mat-flat-button] {
     border-radius: 0.375rem !important;
 }
 
