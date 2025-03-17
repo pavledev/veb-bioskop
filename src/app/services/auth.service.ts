@@ -3,17 +3,28 @@ import {
     Auth,
     AuthErrorCodes,
     authState,
-    createUserWithEmailAndPassword, reauthenticateWithCredential,
+    createUserWithEmailAndPassword,
+    reauthenticateWithCredential,
     signInWithEmailAndPassword,
     signOut,
     updateEmail,
     updatePassword,
     updateProfile,
-    User, verifyBeforeUpdateEmail,
+    User,
     EmailAuthProvider
 } from '@angular/fire/auth';
 import { UserModel } from '../models/user.model';
-import { doc, Firestore, FirestoreError, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
+import {
+    collection,
+    doc,
+    Firestore,
+    FirestoreError,
+    getDoc, getDocs,
+    query,
+    setDoc,
+    updateDoc,
+    where
+} from '@angular/fire/firestore';
 import { UtilityService } from './utility.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -62,6 +73,13 @@ export class AuthService
 
     async register(user: UserModel)
     {
+        const isAvailable = await this.checkUsernameAvailability(user.username, '');
+
+        if (!isAvailable)
+        {
+            return ['Već postoji korisnik sa ovim korisničkim imenom!'];
+        }
+
         let errorMessage = 'Došlo je do greške prilikom registracije!';
         const [authError, firebaseUser] = await this.utilityService.catchError(
             createUserWithEmailAndPassword(this.firebaseAuth,
@@ -152,6 +170,16 @@ export class AuthService
 
     async updateUserProfile(uid: string, user: Partial<UserModel>)
     {
+        if (user.username && user.username !== this.currentUser?.displayName)
+        {
+            const isAvailable = await this.checkUsernameAvailability(user.username, this.currentUser?.uid as string);
+
+            if (!isAvailable)
+            {
+                return 'Već postoji korisnik sa ovim korisničkim imenom!';
+            }
+        }
+
         const error = await this.updateFirebaseUser(user);
 
         if (error)
@@ -237,5 +265,14 @@ export class AuthService
         const [reauthError] = await this.utilityService.catchError(reauthenticateWithCredential(currentUser, credential));
 
         return reauthError ? 'Pogrešna lozinka. Pokušajte ponovo.' : null;
+    }
+
+    async checkUsernameAvailability(username: string, userId: string)
+    {
+        const usersReference = collection(this.firestore, 'users');
+        const usernameQuery = query(usersReference, where('username', '==', username));
+        const querySnapshot = await getDocs(usernameQuery);
+
+        return querySnapshot.empty || querySnapshot.docs[0].id === userId;
     }
 }
