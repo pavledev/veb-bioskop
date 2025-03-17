@@ -24,7 +24,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 })
 export class PasswordConfirmDialogComponent
 {
-    private readonly dialogRef: MatDialogRef<PasswordConfirmDialogComponent> = inject(MatDialogRef<PasswordConfirmDialogComponent>);
+    private readonly dialogReference: MatDialogRef<PasswordConfirmDialogComponent> = inject(MatDialogRef<PasswordConfirmDialogComponent>);
     private formBuilder: FormBuilder = inject(FormBuilder);
     private authService: AuthService = inject(AuthService);
     public passwordForm: FormGroup;
@@ -63,12 +63,12 @@ export class PasswordConfirmDialogComponent
         }
         else
         {
-            this.dialogRef.close(currentPassword);
+            this.dialogReference.close(currentPassword);
         }
     }
 
     cancel()
     {
-        this.dialogRef.close(null);
+        this.dialogReference.close(null);
     }
 }
