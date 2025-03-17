@@ -1,1 +1,25 @@
-<p>cart works!</p>
+<div class="container">
+    <div class="cart-container">
+        <div class="cart-empty">
+            <h2>Vaša korpa</h2>
+            <mat-icon class="cart-icon">shopping_cart_off</mat-icon>
+            <p>Korpa je prazna</p>
+        </div>
+
+        <mat-card class="order-summary">
+            <mat-card-content>
+                <h3>Pregled narudžbine</h3>
+                <div class="summary-item">
+                    <span>Narudžbina:</span>
+                    <span>0.00 RSD</span>
+                </div>
+                <div class="summary-item">
+                    <span>Troškovi dostave:</span>
+                    <span>0.00 RSD</span>
+                </div>
+                <h3 class="total-amount">Iznos kupovine: <b>0.00 RSD</b></h3>
+                <button mat-button color="primary" class="continue-btn">Nastavite</button>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
