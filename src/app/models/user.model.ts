@@ -10,4 +10,5 @@ export interface UserModel
     streetName: string;
     streetNumber: string;
     favoriteGenres: string[];
+    reviews: string[];
 }
