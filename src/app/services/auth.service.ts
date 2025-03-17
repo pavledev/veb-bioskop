@@ -155,12 +155,12 @@ export class AuthService
 
     async getUserDocument(uid: string)
     {
-        const userDocReference = doc(this.firestore, 'users', uid);
-        const userDocSnapshot = await getDoc(userDocReference);
+        const userDocumentReference = doc(this.firestore, 'users', uid);
+        const userDocumentSnapshot = await getDoc(userDocumentReference);
 
-        if (userDocSnapshot.exists())
+        if (userDocumentSnapshot.exists())
         {
-            this.userDocumentSubject.next(userDocSnapshot.data() as UserModel);
+            this.userDocumentSubject.next(userDocumentSnapshot.data() as UserModel);
         }
         else
         {
