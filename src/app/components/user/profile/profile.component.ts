@@ -24,10 +24,8 @@ import { NgxMaskDirective } from 'ngx-mask';
 import { firstValueFrom, Observable, Subject, takeUntil } from 'rxjs';
 import { User } from '@angular/fire/auth';
 import { UserModel } from '../../../models/user.model';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { PasswordConfirmDialogComponent } from '../../password-confirm-dialog/password-confirm-dialog.component';
-import { AlertDialogService } from '../../../services/alert-dialog.service';
 
 @Component({
     selector: 'app-profile',
@@ -52,13 +50,11 @@ import { AlertDialogService } from '../../../services/alert-dialog.service';
 })
 export class ProfileComponent implements OnInit, OnDestroy
 {
-    private router: Router = inject(Router);
     private formBuilder: FormBuilder = inject(FormBuilder);
     private snackBar: MatSnackBar = inject(MatSnackBar);
     private genreService: GenreService = inject(GenreService);
     private authService: AuthService = inject(AuthService);
     private readonly dialog: MatDialog = inject(MatDialog);
-    private alertDialogService: AlertDialogService = inject(AlertDialogService);
     public profileForm: FormGroup;
     public passwordForm: FormGroup;
 
@@ -121,7 +117,8 @@ export class ProfileComponent implements OnInit, OnDestroy
         if (error)
         {
             this.error = error.message;
-        } else
+        }
+        else
         {
             this.genres = genres;
         }
@@ -184,10 +181,19 @@ export class ProfileComponent implements OnInit, OnDestroy
 
         if (error)
         {
-            this.snackBar.open("Greška pri ažuriranju profila!", "Zatvori", { duration: 3000 });
-        } else
+            this.snackBar.open(error, "Zatvori", {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'top'
+            });
+        }
+        else
         {
-            this.snackBar.open("Profil je uspešno ažuriran!", "Zatvori", { duration: 3000 });
+            this.snackBar.open("Profil je uspešno ažuriran!", "Zatvori", {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'top'
+            });
         }
     }
 
@@ -231,14 +237,19 @@ export class ProfileComponent implements OnInit, OnDestroy
 
         if (error)
         {
-            this.alertDialogService.openDialog('error',
-                'Greška pri ažuriranju lozinke!',
-                'Došlo je do problema prilikom ažuriranja vaše lozinke. Pokušajte ponovo.');
-        } else
+            this.snackBar.open("Greška pri ažuriranju lozinke!", "Zatvori", {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'top'
+            });
+        }
+        else
         {
-            this.alertDialogService.openDialog('success',
-                'Lozinka ažurirana',
-                'Vaša lozinka je uspešno promenjena.');
+            this.snackBar.open("Lozinka je uspešno ažurirana!", "Zatvori", {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'top'
+            });
         }
     }
 }
