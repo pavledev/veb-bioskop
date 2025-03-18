@@ -16,6 +16,9 @@ import { MovieReviewService } from '../../services/movie.review.service';
 import { forkJoin, map, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { UserService } from '../../services/user.service';
+import { CartService } from '../../services/cart.service';
+import { CartItemModel } from '../../models/cart.item.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-movie-details',
@@ -33,9 +36,8 @@ import { UserService } from '../../services/user.service';
     ],
     templateUrl: './movie-details.component.html',
     styleUrl: './movie-details.component.css',
-    providers: [MovieService, UserService]
+    providers: [MovieService, UserService, CartService]
 })
-export class MovieDetailsComponent implements OnInit
 export class MovieDetailsComponent implements OnInit, OnDestroy
 {
     private readonly route: ActivatedRoute = inject(ActivatedRoute);
@@ -250,5 +252,32 @@ export class MovieDetailsComponent implements OnInit, OnDestroy
             ...rating,
             percentage: this.totalReviews > 0 ? (rating.count / this.totalReviews) * 100 : 0
         }));
+    }
+
+    addToCart(): void
+    {
+        if (!this.movie)
+        {
+            return;
+        }
+
+        const cartItem: CartItemModel = {
+            posterPath: this.movie.posterPath,
+            title: this.movie.title,
+            cinemaLocation: '',
+            projectionDate: '',
+            projectionTime: '',
+            ticketCount: 1,
+            technology: '',
+            price: this.movie.price
+        };
+
+        this.cartService.addToCart(cartItem);
+
+        this.snackBar.open('Film je uspešno dodat u korpu.', 'Zatvori', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top'
+        });
     }
 }
