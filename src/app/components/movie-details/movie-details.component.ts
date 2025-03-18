@@ -45,27 +45,18 @@ export class MovieDetailsComponent implements OnInit
 
     public movie: MovieModel | null = null;
     public error: string | null = null;
-    //public reviews$: Observable<MovieReviewModel[]> = new Observable<MovieReviewModel[]>();
     public reviews$: Observable<(MovieReviewModel & { username: string | null })[]> = new Observable();
 
     @ViewChild('galleryContainer', { static: false }) galleryContainer!: ElementRef;
 
-    totalReviews = '10.0k';
-    growthPercentage = 21;
-    averageRating = 4.5;
-    ratingDistribution = [
-        { stars: 5, count: 2000, color: '#16a34a' }, // Green
-        { stars: 4, count: 1000, color: '#c084fc' }, // Purple
-        { stars: 3, count: 500, color: '#facc15' },  // Yellow
-        { stars: 2, count: 200, color: '#06b6d4' },  // Blue
-        { stars: 1, count: 0, color: '#dc2626' }     // Red
-    ];
-    maxRatingCount = Math.max(...this.ratingDistribution.map(r => r.count));
+    averageRating: number = 0;
+    ratingDistribution: { stars: number, count: number }[] = [];
+    totalReviews: number = 0;
+    maxRatingCount: number = 0;
 
     async ngOnInit()
     {
         const movieSlug: string | null = this.route.snapshot.paramMap.get('slug');
-
         const [error, response] = await this.movieService.getMovieDetails(movieSlug);
 
         if (error)
@@ -102,21 +93,38 @@ export class MovieDetailsComponent implements OnInit
                 this.movie.trailerUrl = response2.data[0].trailerUrl;
             }
 
-            //this.reviews$ = this.movieReviewService.getReviewsByMovieId(this.movie.movieId);
             this.reviews$ = this.movieReviewService.getReviewsByMovieId(this.movie.movieId).pipe(
                 switchMap(reviews =>
                 {
-                    // Fetch usernames for each review
                     const usernameObservables = reviews.map(review =>
                         this.userService.getUsername(review.userId).then(username => ({
                             ...review,
-                            username: username || 'Nepoznat korisnik'
+                            username: username
                         }))
                     );
 
-                    return forkJoin(usernameObservables); // Convert array of Promises into Observable
+                    return forkJoin(usernameObservables);
                 })
             );
+
+            this.reviews$.subscribe(reviews =>
+            {
+                if (reviews && reviews.length > 0)
+                {
+                    const totalScore = reviews.reduce((sum, review) => sum + review.rating, 0);
+                    this.averageRating = totalScore / reviews.length;
+                    this.totalReviews = reviews.length;
+                    this.ratingDistribution = this.calculateRatingDistribution(reviews);
+                    this.maxRatingCount = Math.max(...this.ratingDistribution.map(r => r.count), 1);
+                }
+                else
+                {
+                    this.averageRating = 0;
+                    this.totalReviews = 0;
+                    this.ratingDistribution = Array.from({ length: 10 }, (_, i) => ({ stars: 10 - i, count: 0 }));
+                    this.maxRatingCount = 1;
+                }
+            });
         }
     }
 
@@ -179,5 +187,54 @@ export class MovieDetailsComponent implements OnInit
                 movieId: this.movie?.movieId
             },
         });
+    }
+
+    getStarIcons(): string[]
+    {
+        let rating = this.averageRating;
+        const stars: string[] = [];
+
+        for (let i = 0; i < 10; i++)
+        {
+            if (rating >= 1)
+            {
+                stars.push('star');
+            }
+            else if (rating >= 0.5)
+            {
+                stars.push('star_half');
+            }
+            else
+            {
+                stars.push('star_outline');
+            }
+            rating--;
+        }
+
+        return stars;
+    }
+
+    calculateRatingDistribution(reviews: any[]): { stars: number, count: number }[]
+    {
+        const distribution = Array.from({ length: 10 }, (_, i) => ({ stars: 10 - i, count: 0 }));
+
+        reviews.forEach(review =>
+        {
+            if (review.rating >= 1 && review.rating <= 10)
+            {
+                distribution[10 - review.rating].count++;
+            }
+        });
+
+        return distribution;
+    }
+
+    getRatingDistribution()
+    {
+        return this.ratingDistribution.map(rating => ({
+            ...rating,
+            percentage: this.totalReviews > 0 ? (rating.count / this.totalReviews) * 100 : 0,
+            color: '#FFD700' // Zlatna boja za vizuelni efekat
+        }));
     }
 }

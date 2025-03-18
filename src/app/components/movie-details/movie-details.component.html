@@ -69,35 +69,36 @@
                     <h2>Recenzije</h2>
                     <div class="date-range">March 2021 - February 2022</div>
                 </div>
-                <div class="flex-container" style="flex-wrap: wrap">
+                <div class="review-content">
                     <div class="flex-column">
                         <div class="review-summary-item">
                             <div class="review-title">Ukupan broj recenzija</div>
                             <div class="review-value">
-                                {{ totalReviews }}
+                                {{ (reviews$ | async)?.length }}
                             </div>
                         </div>
 
-                        <!-- Column 2: Average Rating -->
                         <div class="review-summary-item">
                             <div class="review-title">Prosečna ocena</div>
+                            <div class="review-value">{{ averageRating.toFixed(1) }}/10</div>
                             <div class="rating-stars">
-                                <mat-icon *ngFor="let star of [1,2,3,4]">star</mat-icon>
-                                <mat-icon>star_half</mat-icon>
+                                <mat-icon *ngFor="let star of getStarIcons()"
+                                          [fontIcon]="star"></mat-icon>
                             </div>
                         </div>
 
-                        <!-- Column 3: Rating Breakdown -->
                         <div class="review-summary-item rating-breakdown">
-                            <div *ngFor="let rating of ratingDistribution" class="rating-row">
+                            <div *ngFor="let rating of getRatingDistribution()" class="rating-row">
                                 <span class="rating-label">{{ rating.stars }}</span>
                                 <div class="rating-bar">
-                                    <div
-                                        class="rating-fill"
-                                        [ngStyle]="{ 'width': (rating.count / maxRatingCount) * 100 + '%', 'background-color': rating.color }">
+                                    <div class="rating-fill"
+                                         [ngStyle]="{ 'width': rating.percentage + '%' }">
                                     </div>
                                 </div>
-                                <span class="rating-count">{{ rating.count }}</span>
+                                <div class="rating-values">
+                                    <span class="rating-percentage">{{ rating.percentage }}%</span>
+                                    <span class="rating-count">({{ rating.count }})</span>
+                                </div>
                             </div>
                         </div>
 
