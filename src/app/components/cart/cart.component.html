@@ -1,10 +1,59 @@
 <div class="container">
     <div class="cart-container">
-        <div class="cart-empty">
-            <h2>Vaša korpa</h2>
-            <mat-icon class="cart-icon">shopping_cart_off</mat-icon>
-            <p>Korpa je prazna</p>
-        </div>
+
+        @if (cartItems.length > 0) {
+            <div class="cart-items">
+                @for (cartItem of cartItems; track cartItem) {
+                    <mat-card class="cart-item" appearance="outlined">
+                        <mat-card-content>
+                            <div class="image-container">
+                                <a [routerLink]="['/filmovi', utilityService.getSlug(cartItem.title)]">
+                                    <img mat-card-image src="{{cartItem.posterPath}}" alt="{{cartItem.title}}">
+                                </a>
+                            </div>
+                            <div>
+                                <p class="movie-title">
+                                    <a [routerLink]="['/filmovi', utilityService.getSlug(cartItem.title)]">
+                                        {{ cartItem.title }}
+                                    </a>
+                                </p>
+                                <p>Početak prikazivanja:</p>
+                            </div>
+                            <div>
+                                <form>
+                                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                        <mat-label>Lokacija</mat-label>
+                                        <mat-icon matPrefix fontIcon="person"/>
+                                        <input type="text" matInput formControlName="firstName">
+
+                                        @if (profileForm.controls['firstName'].hasError('required')) {
+                                            <mat-error>Ime je obavezno!</mat-error>
+                                        }
+
+                                        @if (profileForm.controls['firstName'].hasError('minlength')) {
+                                            <mat-error>Ime mora imati najmanje 2 slova!</mat-error>
+                                        }
+
+                                    </mat-form-field>
+                                </form>
+                            </div>
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <button mat-button>
+                                <mat-icon>shopping_cart</mat-icon>
+                                Dodaj u korpu
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
+                }
+            </div>
+        } @else {
+            <div class="cart-empty">
+                <h2>Vaša korpa</h2>
+                <mat-icon class="cart-icon">shopping_cart_off</mat-icon>
+                <p>Korpa je prazna</p>
+            </div>
+        }
 
         <mat-card class="order-summary">
             <mat-card-content>

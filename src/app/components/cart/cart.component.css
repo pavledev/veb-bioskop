@@ -15,6 +15,16 @@
     color: #333;
 }
 
+.cart-items {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.cart-item {
+
+}
+
 .order-summary {
     width: 300px;
     padding: 20px;
