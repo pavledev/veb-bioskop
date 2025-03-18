@@ -101,11 +101,15 @@ export class MovieDetailsComponent implements OnInit, OnDestroy
             this.reviews$ = this.movieReviewService.getReviewsByMovieId(this.movie.movieId).pipe(
                 switchMap(reviews =>
                 {
+                    if (!reviews || reviews.length === 0)
+                    {
+                        return of([]);
+                    }
+
                     const usernameObservables = reviews.map(review =>
-                        this.userService.getUsername(review.userId).then(username => ({
-                            ...review,
-                            username: username
-                        }))
+                        this.userService.getUsername(review.userId).pipe(
+                            map(username => ({ ...review, username }))
+                        )
                     );
 
                     return forkJoin(usernameObservables);
@@ -244,8 +248,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy
     {
         return this.ratingDistribution.map(rating => ({
             ...rating,
-            percentage: this.totalReviews > 0 ? (rating.count / this.totalReviews) * 100 : 0,
-            color: '#FFD700' // Zlatna boja za vizuelni efekat
+            percentage: this.totalReviews > 0 ? (rating.count / this.totalReviews) * 100 : 0
         }));
     }
 }
