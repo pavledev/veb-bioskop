@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MovieService } from '../../services/movie.service';
 import { MovieModel } from '../../models/movie.model';
 import { ActivatedRoute } from '@angular/router';
@@ -13,7 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MovieReviewDialogComponent } from '../movie-review-dialog/movie-review-dialog.component';
 import { MovieReviewModel } from '../../models/movie.review.model';
 import { MovieReviewService } from '../../services/movie.review.service';
-import { forkJoin, Observable, switchMap } from 'rxjs';
+import { forkJoin, map, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { UserService } from '../../services/user.service';
 
@@ -36,6 +36,7 @@ import { UserService } from '../../services/user.service';
     providers: [MovieService, UserService]
 })
 export class MovieDetailsComponent implements OnInit
+export class MovieDetailsComponent implements OnInit, OnDestroy
 {
     private readonly route: ActivatedRoute = inject(ActivatedRoute);
     private readonly dialog: MatDialog = inject(MatDialog);
@@ -48,6 +49,7 @@ export class MovieDetailsComponent implements OnInit
     public movie: MovieModel | null = null;
     public error: string | null = null;
     public reviews$: Observable<(MovieReviewModel & { username: string | null })[]> = new Observable();
+    private unsubscribe$: Subject<void> = new Subject<void>();
 
     @ViewChild('galleryContainer', { static: false }) galleryContainer!: ElementRef;
 
@@ -110,7 +112,7 @@ export class MovieDetailsComponent implements OnInit
                 })
             );
 
-            this.reviews$.subscribe(reviews =>
+            this.reviews$.pipe(takeUntil(this.unsubscribe$)).subscribe(reviews =>
             {
                 if (reviews && reviews.length > 0)
                 {
@@ -129,6 +131,12 @@ export class MovieDetailsComponent implements OnInit
                 }
             });
         }
+    }
+
+    ngOnDestroy()
+    {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
     }
 
     previousImage(): void
