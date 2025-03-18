@@ -37,11 +37,13 @@ import { UserService } from '../../services/user.service';
 })
 export class MovieDetailsComponent implements OnInit
 {
-    private route: ActivatedRoute = inject(ActivatedRoute);
+    private readonly route: ActivatedRoute = inject(ActivatedRoute);
     private readonly dialog: MatDialog = inject(MatDialog);
-    private movieService: MovieService = inject(MovieService);
-    private movieReviewService: MovieReviewService = inject(MovieReviewService);
-    private userService: UserService = inject(UserService);
+    private readonly snackBar: MatSnackBar = inject(MatSnackBar);
+    private readonly movieService: MovieService = inject(MovieService);
+    private readonly movieReviewService: MovieReviewService = inject(MovieReviewService);
+    private readonly userService: UserService = inject(UserService);
+    private readonly cartService: CartService = inject(CartService);
 
     public movie: MovieModel | null = null;
     public error: string | null = null;
