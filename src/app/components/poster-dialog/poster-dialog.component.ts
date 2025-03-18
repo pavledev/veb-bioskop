@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class PosterDialogComponent
 {
-    readonly dialogRef = inject(MatDialogRef<PosterDialogComponent>);
+    private readonly dialogReference = inject(MatDialogRef<PosterDialogComponent>);
 
     constructor(@Inject(MAT_DIALOG_DATA) public data: { posterPath: string; title: string })
     {
@@ -22,6 +22,6 @@ export class PosterDialogComponent
 
     close(): void
     {
-        this.dialogRef.close();
+        this.dialogReference.close();
     }
 }

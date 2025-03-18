@@ -50,13 +50,13 @@ import { PasswordConfirmDialogComponent } from '../../password-confirm-dialog/pa
 })
 export class ProfileComponent implements OnInit, OnDestroy
 {
-    private formBuilder: FormBuilder = inject(FormBuilder);
-    private snackBar: MatSnackBar = inject(MatSnackBar);
-    private genreService: GenreService = inject(GenreService);
-    private authService: AuthService = inject(AuthService);
+    private readonly formBuilder: FormBuilder = inject(FormBuilder);
+    private readonly snackBar: MatSnackBar = inject(MatSnackBar);
     private readonly dialog: MatDialog = inject(MatDialog);
-    public profileForm: FormGroup;
-    public passwordForm: FormGroup;
+    private readonly genreService: GenreService = inject(GenreService);
+    private readonly authService: AuthService = inject(AuthService);
+    public readonly profileForm: FormGroup;
+    public readonly passwordForm: FormGroup;
 
     public genres: string[] | null = null;
     public error: string | null = null

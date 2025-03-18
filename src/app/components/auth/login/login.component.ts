@@ -28,11 +28,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class LoginComponent
 {
-    private router: Router = inject(Router);
-    private formBuilder: FormBuilder = inject(FormBuilder);
-    private snackBar: MatSnackBar = inject(MatSnackBar);
-    private authService: AuthService = inject(AuthService);
-    public loginForm: FormGroup;
+    private readonly router: Router = inject(Router);
+    private readonly formBuilder: FormBuilder = inject(FormBuilder);
+    private readonly snackBar: MatSnackBar = inject(MatSnackBar);
+    private readonly authService: AuthService = inject(AuthService);
+    public readonly loginForm: FormGroup;
 
     public isLoggingIn: boolean = false;
 

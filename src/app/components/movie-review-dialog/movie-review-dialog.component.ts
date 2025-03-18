@@ -29,10 +29,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class MovieReviewDialogComponent
 {
     private readonly dialogReference: MatDialogRef<MovieReviewDialogComponent> = inject(MatDialogRef<MovieReviewDialogComponent>);
-    private snackBar: MatSnackBar = inject(MatSnackBar);
+    private readonly snackBar: MatSnackBar = inject(MatSnackBar);
     private readonly movieReviewService: MovieReviewService = inject(MovieReviewService);
-    private formBuilder: FormBuilder = inject(FormBuilder);
-    public movieReviewForm: FormGroup;
+    private readonly formBuilder: FormBuilder = inject(FormBuilder);
+    public readonly movieReviewForm: FormGroup;
 
     private readonly movieId: string;
     public isCreatingMovieReview: boolean = false;

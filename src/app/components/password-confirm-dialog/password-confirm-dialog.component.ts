@@ -25,9 +25,9 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 export class PasswordConfirmDialogComponent
 {
     private readonly dialogReference: MatDialogRef<PasswordConfirmDialogComponent> = inject(MatDialogRef<PasswordConfirmDialogComponent>);
-    private formBuilder: FormBuilder = inject(FormBuilder);
-    private authService: AuthService = inject(AuthService);
-    public passwordForm: FormGroup;
+    private readonly formBuilder: FormBuilder = inject(FormBuilder);
+    private readonly authService: AuthService = inject(AuthService);
+    public readonly passwordForm: FormGroup;
 
     public isReauthenticating: boolean = false;
 

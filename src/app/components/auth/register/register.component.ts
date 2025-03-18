@@ -47,12 +47,12 @@ import { NgxMaskDirective } from 'ngx-mask';
 })
 export class RegisterComponent implements OnInit
 {
-    private router: Router = inject(Router);
-    private formBuilder: FormBuilder = inject(FormBuilder);
-    private snackBar: MatSnackBar = inject(MatSnackBar);
-    private genreService: GenreService = inject(GenreService);
-    private authService: AuthService = inject(AuthService);
-    public registerForm: FormGroup;
+    private readonly router: Router = inject(Router);
+    private readonly formBuilder: FormBuilder = inject(FormBuilder);
+    private readonly snackBar: MatSnackBar = inject(MatSnackBar);
+    private readonly genreService: GenreService = inject(GenreService);
+    private readonly authService: AuthService = inject(AuthService);
+    public readonly registerForm: FormGroup;
 
     public genres: string[] | null = null;
     public error: string | null = null
