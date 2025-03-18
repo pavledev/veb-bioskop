@@ -23,7 +23,7 @@ body {
     display: flex;
 }
 
-button {
+button, a[mat-flat-button] {
     border-radius: 0.375rem !important;
 }
 
