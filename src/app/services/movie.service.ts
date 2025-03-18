@@ -33,4 +33,9 @@ export class MovieService
     {
         return this.utilityService.catchError(this.client.post('/v1/movies/search/advanced', { title: movieTitle }));
     }
+
+    async getLocations()
+    {
+        return this.utilityService.catchError(this.client.post('/v1/locations'));
+    }
 }
