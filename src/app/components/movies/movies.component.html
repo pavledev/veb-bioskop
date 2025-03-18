@@ -79,13 +79,13 @@
                 @for (movie of movies; track movie) {
                     <mat-card class="movie-card" appearance="outlined">
                         <div class="image-container">
-                            <a [routerLink]="['/filmovi', getSlug(movie.title)]">
+                            <a [routerLink]="['/filmovi', utilityService.getSlug(movie.title)]">
                                 <img mat-card-image src="{{movie.posterPath}}" alt="{{movie.title}}">
                             </a>
                         </div>
                         <mat-card-content>
                             <p class="movie-title">
-                                <a [routerLink]="['/filmovi', getSlug(movie.title)]">
+                                <a [routerLink]="['/filmovi', utilityService.getSlug(movie.title)]">
                                     {{ movie.title }}
                                 </a>
                             </p>

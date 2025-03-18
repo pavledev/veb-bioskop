@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MovieService } from '../../services/movie.service';
 import { MovieModel } from '../../models/movie.model';
 import { AxiosError } from 'axios';
@@ -11,6 +11,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingComponent } from '../loading/loading.component';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
     selector: 'app-movies',
@@ -32,6 +33,8 @@ import { LoadingComponent } from '../loading/loading.component';
 })
 export class MoviesComponent implements OnInit
 {
+    public readonly utilityService: UtilityService = inject(UtilityService);
+
     public movies: MovieModel[] | null = null;
     public error: string | null = null;
 
@@ -66,13 +69,5 @@ export class MoviesComponent implements OnInit
                 distributorName: movie.distributorName,
             }));
         }
-    }
-
-    getSlug(title: string): string
-    {
-        return title
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/^-+|-+$/g, '');
     }
 }
