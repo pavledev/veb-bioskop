@@ -82,6 +82,7 @@ export class MovieDetailsComponent implements OnInit
                 directors: response.data.directors,
                 technologies: [response.data.availableTechCMS[0].Description.substring(3, 5)],
                 distributorName: response.data.distributorName,
+                price: 0
             };
 
             const [error2, response2] = await this.movieService.getTrailerURL(response.data.title);
