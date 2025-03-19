@@ -12,6 +12,7 @@ import { MatInput } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingComponent } from '../loading/loading.component';
 import { UtilityService } from '../../services/utility.service';
+import { ErrorComponent } from '../error/error.component';
 
 @Component({
     selector: 'app-movies',
@@ -25,7 +26,8 @@ import { UtilityService } from '../../services/utility.service';
         MatInput,
         MatLabel,
         MatProgressSpinnerModule,
-        LoadingComponent
+        LoadingComponent,
+        ErrorComponent
     ],
     templateUrl: './movies.component.html',
     styleUrl: './movies.component.css',
@@ -33,14 +35,11 @@ import { UtilityService } from '../../services/utility.service';
 })
 export class MoviesComponent implements OnInit
 {
+    private readonly movieService: MovieService = inject(MovieService);
     public readonly utilityService: UtilityService = inject(UtilityService);
 
     public movies: MovieModel[] | null = null;
     public error: string | null = null;
-
-    constructor(private movieService: MovieService)
-    {
-    }
 
     async ngOnInit()
     {
