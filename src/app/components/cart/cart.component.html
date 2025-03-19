@@ -20,19 +20,22 @@
                                 <p>Početak prikazivanja:</p>
                             </div>
                             <div>
-                                <form>
+                                <form [formGroup]="cartForm">
                                     <mat-form-field appearance="outline" subscriptSizing="dynamic">
                                         <mat-label>Lokacija</mat-label>
                                         <mat-icon matPrefix fontIcon="person"/>
-                                        <input type="text" matInput formControlName="firstName">
+                                        <mat-select formControlName="cinemaLocation">
 
-                                        @if (profileForm.controls['firstName'].hasError('required')) {
-                                            <mat-error>Ime je obavezno!</mat-error>
-                                        }
+                                            @for (cinemaLocation of cinemaLocations; track cinemaLocation) {
+                                                <mat-option [value]="cinemaLocation">{{ cinemaLocation }}</mat-option>
+                                            }
 
-                                        @if (profileForm.controls['firstName'].hasError('minlength')) {
-                                            <mat-error>Ime mora imati najmanje 2 slova!</mat-error>
-                                        }
+                                        </mat-select>
+
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                        <mat-label>Datum projekcije</mat-label>
+                                        <mat-icon matPrefix fontIcon="person"/>
 
                                     </mat-form-field>
                                 </form>
