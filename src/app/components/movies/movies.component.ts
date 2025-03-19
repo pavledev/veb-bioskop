@@ -7,12 +7,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import {RouterLink} from '@angular/router';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatFormField, MatLabel, MatPrefix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingComponent } from '../loading/loading.component';
 import { UtilityService } from '../../services/utility.service';
 import { ErrorComponent } from '../error/error.component';
+import { MatOption } from "@angular/material/core";
+import { MatSelect } from "@angular/material/select";
+import { ReactiveFormsModule } from "@angular/forms";
 
 @Component({
     selector: 'app-movies',
@@ -27,7 +30,11 @@ import { ErrorComponent } from '../error/error.component';
         MatLabel,
         MatProgressSpinnerModule,
         LoadingComponent,
-        ErrorComponent
+        ErrorComponent,
+        MatOption,
+        MatPrefix,
+        MatSelect,
+        ReactiveFormsModule
     ],
     templateUrl: './movies.component.html',
     styleUrl: './movies.component.css',
