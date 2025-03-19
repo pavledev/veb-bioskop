@@ -14,5 +14,4 @@ export interface MovieModel
     directors: string[];
     technologies: string[];
     distributorName: string;
-    price: number;
 }
