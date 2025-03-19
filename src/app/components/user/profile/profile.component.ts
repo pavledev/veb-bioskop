@@ -26,6 +26,7 @@ import { User } from '@angular/fire/auth';
 import { UserModel } from '../../../models/user.model';
 import { MatDialog } from '@angular/material/dialog';
 import { PasswordConfirmDialogComponent } from '../../password-confirm-dialog/password-confirm-dialog.component';
+import { UserService } from '../../../services/user.service';
 
 @Component({
     selector: 'app-profile',
@@ -55,6 +56,7 @@ export class ProfileComponent implements OnInit, OnDestroy
     private readonly dialog: MatDialog = inject(MatDialog);
     private readonly genreService: GenreService = inject(GenreService);
     private readonly authService: AuthService = inject(AuthService);
+    private readonly userService: UserService = inject(UserService);
     public readonly profileForm: FormGroup;
     public readonly passwordForm: FormGroup;
 
@@ -63,8 +65,7 @@ export class ProfileComponent implements OnInit, OnDestroy
     public isUpdatingProfile: boolean = false;
     public isUpdatingPassword: boolean = false;
 
-    public user$: Observable<User | null> = this.authService.user$;
-    public userDocument$: Observable<UserModel | null> = this.authService.userDocument$;
+    public userDocument$: Observable<UserModel | null> = this.userService.userDocument$;
     private unsubscribe$: Subject<void> = new Subject<void>();
 
     constructor()
@@ -174,7 +175,7 @@ export class ProfileComponent implements OnInit, OnDestroy
             return;
         }
 
-        const error: string | null = await this.authService.updateUserProfile(this.authService.currentUser.uid, this.profileForm.value);
+        const error: string | null = await this.userService.updateUserProfile(this.authService.currentUser.uid, this.profileForm.value, this.authService);
 
         this.isUpdatingProfile = false;
         this.profileForm.enable();
@@ -230,7 +231,7 @@ export class ProfileComponent implements OnInit, OnDestroy
             return;
         }
 
-        const error: string | null = await this.authService.updateUserProfile(this.authService.currentUser.uid, { password });
+        const error: string | null = await this.userService.updateUserProfile(this.authService.currentUser.uid, { password }, this.authService);
 
         this.isUpdatingPassword = false;
         this.passwordForm.enable();

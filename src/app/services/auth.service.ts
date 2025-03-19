@@ -27,6 +27,7 @@ import {
 } from '@angular/fire/firestore';
 import { UtilityService } from './utility.service';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
     providedIn: 'root'
@@ -35,9 +36,10 @@ export class AuthService
 {
     private firebaseAuth: Auth = inject(Auth);
     private firestore: Firestore = inject(Firestore);
+    private userService: UserService = inject(UserService);
     private utilityService: UtilityService = inject(UtilityService);
+
     private userSubject = new BehaviorSubject<User | null>(null);
-    private userDocumentSubject = new BehaviorSubject<UserModel | null>(null);
 
     constructor()
     {
@@ -47,11 +49,11 @@ export class AuthService
 
             if (user)
             {
-                await this.getUserDocument(user.uid);
+                await this.userService.getUserDocument(user.uid);
             }
             else
             {
-                this.userDocumentSubject.next(null);
+                this.userService.clearUserDocument();
             }
         });
     }
@@ -66,14 +68,9 @@ export class AuthService
         return this.userSubject.asObservable();
     }
 
-    get userDocument$(): Observable<UserModel | null>
-    {
-        return this.userDocumentSubject.asObservable();
-    }
-
     async register(user: UserModel)
     {
-        const isAvailable = await this.checkUsernameAvailability(user.username, '');
+        const isAvailable = await this.userService.checkUsernameAvailability(user.username, '');
 
         if (!isAvailable)
         {
@@ -150,44 +147,7 @@ export class AuthService
         await signOut(this.firebaseAuth);
 
         this.userSubject.next(null);
-        this.userDocumentSubject.next(null);
-    }
-
-    async getUserDocument(uid: string)
-    {
-        const userDocumentReference = doc(this.firestore, 'users', uid);
-        const userDocumentSnapshot = await getDoc(userDocumentReference);
-
-        if (userDocumentSnapshot.exists())
-        {
-            this.userDocumentSubject.next(userDocumentSnapshot.data() as UserModel);
-        }
-        else
-        {
-            this.userDocumentSubject.next(null);
-        }
-    }
-
-    async updateUserProfile(uid: string, user: Partial<UserModel>)
-    {
-        if (user.username && user.username !== this.currentUser?.displayName)
-        {
-            const isAvailable = await this.checkUsernameAvailability(user.username, this.currentUser?.uid as string);
-
-            if (!isAvailable)
-            {
-                return 'Već postoji korisnik sa ovim korisničkim imenom!';
-            }
-        }
-
-        const error = await this.updateFirebaseUser(user);
-
-        if (error)
-        {
-            return error;
-        }
-
-        return await this.updateUserDocument(uid, user);
+        this.userService.clearUserDocument();
     }
 
     async updateFirebaseUser(user: Partial<UserModel>)
@@ -242,16 +202,6 @@ export class AuthService
         return null;
     }
 
-    async updateUserDocument(uid: string, user: Partial<UserModel>)
-    {
-        const userDocReference = doc(this.firestore, 'users', uid);
-        const [error] = await this.utilityService.catchError(
-            updateDoc(userDocReference, user)
-        );
-
-        return error ? 'Došlo je do greške prilikom ažuriranja profila!' : null;
-    }
-
     async reauthenticateUser(password: string)
     {
         const currentUser = this.firebaseAuth.currentUser;
@@ -265,14 +215,5 @@ export class AuthService
         const [reauthError] = await this.utilityService.catchError(reauthenticateWithCredential(currentUser, credential));
 
         return reauthError ? 'Pogrešna lozinka. Pokušajte ponovo.' : null;
-    }
-
-    async checkUsernameAvailability(username: string, userId: string)
-    {
-        const usersReference = collection(this.firestore, 'users');
-        const usernameQuery = query(usersReference, where('username', '==', username));
-        const querySnapshot = await getDocs(usernameQuery);
-
-        return querySnapshot.empty || querySnapshot.docs[0].id === userId;
     }
 }
