@@ -75,6 +75,10 @@
                 </mat-form-field>
             </div>
 
+            @if (error) {
+                <app-error errorMessage="{{error}}"/>
+            }
+
             @if (movies) {
                 @for (movie of movies; track movie) {
                     <mat-card class="movie-card" appearance="outlined">
@@ -103,8 +107,7 @@
                         </mat-card-actions>
                     </mat-card>
                 }
-            }
-            @else {
+            } @else {
                 <app-loading/>
             }
         </div>
