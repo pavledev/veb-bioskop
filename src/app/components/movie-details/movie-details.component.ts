@@ -268,7 +268,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy
             projectionTime: '',
             ticketCount: 1,
             technology: '',
-            price: this.movie.price
+            price: 0
         };
 
         this.cartService.addToCart(cartItem);
