@@ -36,7 +36,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     ],
     templateUrl: './movie-details.component.html',
     styleUrl: './movie-details.component.css',
-    providers: [MovieService, UserService, CartService]
+    providers: [MovieService, CartService]
 })
 export class MovieDetailsComponent implements OnInit, OnDestroy
 {
