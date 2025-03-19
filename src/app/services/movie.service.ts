@@ -36,6 +36,6 @@ export class MovieService
 
     async getLocations()
     {
-        return this.utilityService.catchError(this.client.post('/v1/locations'));
+        return this.utilityService.catchError(this.client.get('/v1/locations'));
     }
 }
