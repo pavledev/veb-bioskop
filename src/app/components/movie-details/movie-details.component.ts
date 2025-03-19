@@ -85,8 +85,7 @@ export class MovieDetailsComponent implements OnInit, OnDestroy
                 actors: response.data.actors,
                 directors: response.data.directors,
                 technologies: [response.data.availableTechCMS[0].Description.substring(3, 5)],
-                distributorName: response.data.distributorName,
-                price: 0
+                distributorName: response.data.distributorName
             };
 
             const [error2, response2] = await this.movieService.getTrailerURL(response.data.title);
