@@ -1,2 +1,27 @@
-<h1>Test</h1>
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" animationDuration="0ms">
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="tab-icon" fontIcon="thumb_up"/>
+            Preporučeno
+        </ng-template>
+        <app-movies/>
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="tab-icon" fontIcon="movie"/>
+            U bioskopu
+        </ng-template>
+        Content 2
+    </mat-tab>
+
+    <mat-tab>
+        <ng-template mat-tab-label>
+            <mat-icon class="tab-icon" fontIcon="schedule"/>
+            Uskoro
+        </ng-template>
+
+        Content 3
+    </mat-tab>
+</mat-tab-group>
 
