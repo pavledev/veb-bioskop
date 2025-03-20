@@ -25,4 +25,14 @@ export class UtilityService
             .replace(/[^a-z0-9]+/g, '-')
             .replace(/^-+|-+$/g, '');
     }
+
+    public removeDuplicates(arr: string[]): string[]
+    {
+        return [...new Set(arr)];
+    }
+
+    public sortArray(arr: string[]): string[]
+    {
+        return arr.sort((a, b) => a.localeCompare(b));
+    }
 }
