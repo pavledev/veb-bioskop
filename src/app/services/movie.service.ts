@@ -24,6 +24,21 @@ export class MovieService
         return this.utilityService.catchError(this.client.post('/v1/movies/search/advanced', {}));
     }
 
+    async getMovies()
+    {
+        return this.utilityService.catchError(this.client.get('/v2/movies'));
+    }
+
+    async getRecommendedMovies()
+    {
+        return this.utilityService.catchError(this.client.get('/v2/movies/top'));
+    }
+
+    async getComingSoonMovies()
+    {
+        return this.utilityService.catchError(this.client.get('/v2/movies/coming-soon'));
+    }
+
     async getMovieDetails(movieSlug: string | null)
     {
         return this.utilityService.catchError(this.client.get(`/v1/movies/${movieSlug}`));
