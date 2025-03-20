@@ -5,4 +5,5 @@ export interface ProjectionModel
     maxTicketCount: number;
     times: string[];
     halls: string[];
+    technologies: string[];
 }
