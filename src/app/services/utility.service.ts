@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class UtilityService
 {
-    async catchError<T>(promise: Promise<T>): Promise<[undefined, T] | [Error]>
+    public async catchError<T>(promise: Promise<T>): Promise<[undefined, T] | [Error]>
     {
         return promise
             .then((data) =>
@@ -18,7 +18,7 @@ export class UtilityService
             });
     }
 
-    getSlug(title: string): string
+    public getSlug(title: string): string
     {
         return title
             .toLowerCase()
