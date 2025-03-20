@@ -9,8 +9,7 @@
 .cards-container {
     flex: 1;
     display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
+    flex-direction: column;
     padding: 20px;
 }
 
@@ -81,4 +80,39 @@ mat-card-content .movie-title a:hover {
     display: flex;
     justify-content: space-around;
     padding: 10px;
+}
+
+.search-sort-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-right: 16px;
+}
+
+.search-sort-container mat-form-field {
+    width: 30%;
+    margin-bottom: 0;
+}
+
+.movie-grid {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.list {
+    max-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+mat-slider {
+    width: 100%;
+    margin: 0;
+}
+
+.range {
+    text-align: center;
 }
