@@ -19,7 +19,7 @@ export class MovieService
         });
     }
 
-    async getMovies()
+    async getAllMovies()
     {
         return this.utilityService.catchError(this.client.post('/v1/movies/search/advanced', {}));
     }
