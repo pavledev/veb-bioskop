@@ -8,4 +8,5 @@ export interface CartItemModel
     ticketCount: number;
     technology: string;
     price: number;
+    hall: string;
 }
