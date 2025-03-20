@@ -1,9 +1,9 @@
 <div class="container">
     <div class="cart-container">
 
-        @if (cartItems.length > 0) {
+        @if (cartItems && cartItems.length > 0) {
             <div class="cart-items">
-                @for (cartItem of cartItems; track cartItem) {
+                @for (cartItem of cartItems; track cartItem; let index = $index) {
                     <mat-card class="cart-item" appearance="outlined">
                         <mat-card-content>
                             <div class="image-container">
@@ -12,29 +12,78 @@
                                 </a>
                             </div>
                             <div class="cart-item-details">
-                            <div>
-                                <p class="movie-title">
-                                    <a [routerLink]="['/filmovi', utilityService.getSlug(cartItem.title)]">
-                                        {{ cartItem.title }}
-                                    </a>
-                                </p>
-                                <p>Cena:</p>
-                            </div>
-                            <div>
-                                <form [formGroup]="cartForm">
-                                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                                        <mat-label>Lokacija</mat-label>
-                                        <mat-icon matPrefix fontIcon="person"/>
-                                        <mat-select formControlName="cinemaLocation">
+                                <div>
+                                    <p class="movie-title">
+                                        <a [routerLink]="['/filmovi', utilityService.getSlug(cartItem.title)]">
+                                            {{ cartItem.title }}
+                                        </a>
+                                    </p>
+                                    <p>Cena:</p>
+                                </div>
+                                <div>
+                                    <form [formGroup]="cartForm">
+                                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                            <mat-label>Lokacija</mat-label>
+                                            <mat-icon matPrefix fontIcon="person"/>
+                                            <mat-select formControlName="cinemaLocation">
 
-                                            @for (cinemaLocation of cinemaLocations; track cinemaLocation) {
-                                                <mat-option [value]="cinemaLocation">{{ cinemaLocation }}</mat-option>
-                                            }
+                                                @for (cinemaLocation of cinemaLocations; track cinemaLocation) {
+                                                    <mat-option [value]="cinemaLocation">{{ cinemaLocation }}
+                                                    </mat-option>
+                                                }
 
-                                        </mat-select>
-                                    </mat-form-field>
-                                </form>
-                            </div>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                            <mat-label>Datum projekcije</mat-label>
+                                            <mat-icon matPrefix fontIcon="calendar_today"/>
+                                            <mat-select formControlName="projectionDate">
+
+                                                @for (projectionDate of projectionDates; track projectionDate) {
+                                                    <mat-option [value]="projectionDate">{{ projectionDate }}
+                                                    </mat-option>
+                                                }
+
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                            <mat-label>Vreme projekcije</mat-label>
+                                            <mat-icon matPrefix fontIcon="schedule"/>
+                                            <mat-select formControlName="projectionTime">
+
+                                                @for (projectionTime of projections[index].times; track projectionTime) {
+                                                    <mat-option [value]="projectionTime">{{ projectionTime }}
+                                                    </mat-option>
+                                                }
+
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                            <mat-label>Sala</mat-label>
+                                            <mat-icon matPrefix fontIcon="movie"/>
+                                            <mat-select formControlName="hall">
+
+                                                @for (hall of projections[index].halls; track hall) {
+                                                    <mat-option [value]="hall">{{ hall }}
+                                                    </mat-option>
+                                                }
+
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                            <mat-label>Sala</mat-label>
+                                            <mat-icon matPrefix fontIcon="movie"/>
+                                            <mat-select formControlName="eyeglasses">
+
+                                                @for (technology of projections[index].technologies; track technology) {
+                                                    <mat-option [value]="technology">{{ technology }}
+                                                    </mat-option>
+                                                }
+
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </form>
+                                </div>
                             </div>
                         </mat-card-content>
                         <mat-card-actions>

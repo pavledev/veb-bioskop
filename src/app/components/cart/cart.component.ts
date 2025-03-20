@@ -13,6 +13,8 @@ import { MatSelect } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
+import { ProjectionService } from '../../services/projection.service';
+import { ProjectionModel } from '../../models/projection.model';
 
 @Component({
     selector: 'app-cart',
@@ -29,18 +31,21 @@ import { MatInputModule } from '@angular/material/input';
         MatSelect],
     templateUrl: './cart.component.html',
     styleUrl: './cart.component.css',
-    providers: [CartService, MovieService]
+    providers: [CartService, MovieService, ProjectionService]
 })
 export class CartComponent implements OnInit
 {
     private readonly formBuilder: FormBuilder = inject(FormBuilder);
     private readonly cartService: CartService = inject(CartService);
     private readonly movieService: MovieService = inject(MovieService);
+    public readonly projectionService: ProjectionService = inject(ProjectionService);
     public readonly utilityService: UtilityService = inject(UtilityService);
     public readonly cartForm: FormGroup;
 
-    public readonly cartItems: CartItemModel[];
+    public cartItems: CartItemModel[] | null = null;
+    public projections: ProjectionModel[] = [];
     public cinemaLocations: string[] | null = null;
+    public projectionDates: string[] | null = null;
     public error: string | null = null;
 
     constructor()
@@ -49,12 +54,10 @@ export class CartComponent implements OnInit
             cinemaLocation: ['', Validators.required],
             projectionDate: ['', Validators.required],
             projectionTime: ['', Validators.required],
-            projectionHall: ['', Validators.required],
-            ticketCount: ['', Validators.required],
-            technology: ['', [Validators.required]]
+            hall: ['', Validators.required],
+            technology: ['', Validators.required],
+            ticketCount: ['', Validators.required]
         });
-
-        this.cartItems = this.cartService.getCartItems();
     }
 
     async ngOnInit()
@@ -68,6 +71,40 @@ export class CartComponent implements OnInit
         else
         {
             this.cinemaLocations = response.data.map((location: any) => location.name);
+        }
+
+        this.cartItems = this.cartService.getCartItems();
+
+        const titles = this.cartItems.map(item => item.title);
+
+        this.projections = this.projectionService.getProjections().filter((projection: ProjectionModel) => titles.includes(projection.title));
+
+        this.generateProjectionDays();
+    }
+
+    generateProjectionDays()
+    {
+        const currentDate = new Date();
+        const currentHour = currentDate.getHours();
+        const daysOfWeek = ['ponedeljak', 'utorak', 'sreda', 'četvrtak', 'petak', 'subota', 'nedelja'];
+        const months = ['januar', 'februar', 'mart', 'april', 'maj', 'jun', 'jul', 'avgust', 'septembar', 'oktobar', 'novembar', 'decembar'];
+        this.projectionDates = [];
+
+        if (currentHour < 22)
+        {
+            this.projectionDates.push('Danas');
+        }
+
+        for (let i = (currentHour < 22 ? 1 : 0); i < 7; i++)
+        {
+            const date = new Date();
+            date.setDate(currentDate.getDate() + i);
+
+            const day = date.getDate();
+            const month = months[date.getMonth()];
+            const dayOfWeek = i === 0 ? 'Sutra' : daysOfWeek[date.getDay() === 0 ? 6 : date.getDay() - 1];
+
+            this.projectionDates.push(`${day}. ${month}, ${dayOfWeek}`);
         }
     }
 }
