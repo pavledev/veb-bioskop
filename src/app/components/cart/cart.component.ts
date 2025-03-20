@@ -42,13 +42,15 @@ export class CartComponent implements OnInit
     public readonly cartItems: CartItemModel[];
     public cinemaLocations: string[] | null = null;
     public error: string | null = null;
+
     constructor()
     {
         this.cartForm = this.formBuilder.group({
-            cinemaLocation: ['', [Validators.required, Validators.minLength(2)]],
-            projectionDate: ['', [Validators.required, Validators.minLength(2)]],
-            projectionTime: ['', [Validators.required, Validators.email]],
-            ticketCount: ['', [Validators.required, Validators.minLength(6)]],
+            cinemaLocation: ['', Validators.required],
+            projectionDate: ['', Validators.required],
+            projectionTime: ['', Validators.required],
+            projectionHall: ['', Validators.required],
+            ticketCount: ['', Validators.required],
             technology: ['', [Validators.required]]
         });
 

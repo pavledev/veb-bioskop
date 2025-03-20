@@ -22,7 +22,18 @@
 }
 
 .cart-item {
+    display: flex;
+    margin: 20px;
+}
 
+.cart-item mat-card-content {
+    display: flex;
+}
+
+.cart-item img {
+    width: 200px;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
 .order-summary {

@@ -11,13 +11,14 @@
                                     <img mat-card-image src="{{cartItem.posterPath}}" alt="{{cartItem.title}}">
                                 </a>
                             </div>
+                            <div class="cart-item-details">
                             <div>
                                 <p class="movie-title">
                                     <a [routerLink]="['/filmovi', utilityService.getSlug(cartItem.title)]">
                                         {{ cartItem.title }}
                                     </a>
                                 </p>
-                                <p>Početak prikazivanja:</p>
+                                <p>Cena:</p>
                             </div>
                             <div>
                                 <form [formGroup]="cartForm">
@@ -31,20 +32,15 @@
                                             }
 
                                         </mat-select>
-
-                                    </mat-form-field>
-                                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                                        <mat-label>Datum projekcije</mat-label>
-                                        <mat-icon matPrefix fontIcon="person"/>
-
                                     </mat-form-field>
                                 </form>
+                            </div>
                             </div>
                         </mat-card-content>
                         <mat-card-actions>
                             <button mat-button>
-                                <mat-icon>shopping_cart</mat-icon>
-                                Dodaj u korpu
+                                <mat-icon fontIcon="delete"/>
+                                Ukloni
                             </button>
                         </mat-card-actions>
                     </mat-card>
