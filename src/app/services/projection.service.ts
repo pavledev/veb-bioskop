@@ -15,6 +15,15 @@ export class ProjectionService
     private readonly maxPrice = 1000;
     private readonly projectionInterval = 150;
 
+    private allHalls: string[] = [];
+    private allTimes: string[] = [];
+
+    constructor()
+    {
+        this.allHalls = this.generateHalls();
+        this.allTimes = this.generateTimeSlots();
+    }
+
     private generateRandomPrice(): number
     {
         return this.minPrice + Math.floor(Math.random() * (this.maxPrice - this.minPrice + 1));
@@ -50,19 +59,18 @@ export class ProjectionService
         return Array.from({ length: this.hallCount }, (_, index) => `Hall ${index + 1}`);
     }
 
-    private generateUniquePairs(): { halls: string[], times: string[] }
+    private generateHallTimePairs(): { hall: string, time: string }[]
     {
-        const halls = this.generateHalls();
-        const timeSlots = this.generateTimeSlots();
-        const pairCount = Math.min(halls.length, timeSlots.length);
+        const pairs: { hall: string, time: string }[] = [];
+        this.allHalls.forEach(hall =>
+        {
+            this.allTimes.forEach(time =>
+            {
+                pairs.push({ hall, time });
+            });
+        });
 
-        const shuffledHalls = [...halls].sort(() => Math.random() - 0.5);
-        const shuffledTimes = [...timeSlots].sort(() => Math.random() - 0.5);
-
-        return {
-            halls: shuffledHalls.slice(0, pairCount),
-            times: shuffledTimes.slice(0, pairCount)
-        };
+        return pairs;
     }
 
     public async generateProjections()
@@ -74,36 +82,46 @@ export class ProjectionService
             return;
         }
 
-        const today = new Date();
-        const maxDate = new Date(today);
+        const shuffledPairs = this.generateHallTimePairs().sort(() => Math.random() - 0.5);
 
-        maxDate.setDate(today.getDate() + 6);
+        const projections: ProjectionModel[] = response.data.map((movie: any) =>
+        {
+            const hallCount = Math.floor(Math.random() * 5) + 1;
+            const timeCount = Math.floor(Math.random() * 5) + 1;
 
-        const projections: ProjectionModel[] = response.data
-            .filter((movie: MovieModel) =>
+            const selectedHalls = Array.from(new Set(shuffledPairs.splice(0, hallCount).map(pair => pair.hall)));
+            const selectedTimes = Array.from(new Set(shuffledPairs.splice(0, timeCount).map(pair => pair.time)));
+
+            const sortedHalls = selectedHalls.sort((a, b) =>
             {
-                const movieStartDate = new Date(movie.startDate);
-                return movieStartDate <= maxDate;
-            })
-            .map((movie: MovieModel) =>
-            {
-                const { halls, times } = this.generateUniquePairs();
-                return {
-                    title: movie.title,
-                    price: this.generateRandomPrice(),
-                    maxTicketCount: this.maxTicketsPerHall,
-                    halls,
-                    times
-                };
+                const numA = parseInt(a.replace(/\D+/g, ''), 10);
+                const numB = parseInt(b.replace(/\D+/g, ''), 10);
+                return numA - numB;
             });
+
+            const sortedTimes = selectedTimes.sort((a, b) =>
+            {
+                const [hourA, minuteA] = a.split(':').map(Number);
+                const [hourB, minuteB] = b.split(':').map(Number);
+                return (hourA * 60 + minuteA) - (hourB * 60 + minuteB);
+            });
+
+            return {
+                title: movie.title,
+                price: this.generateRandomPrice(),
+                maxTicketCount: this.maxTicketsPerHall,
+                times: sortedTimes,
+                halls: sortedHalls,
+                technologies: movie.availableTechCMS.map((technology: any): string[] => technology.Description.replace(/<[^>]+>/g, ''))
+            };
+        });
 
         localStorage.setItem(this.PROJECTIONS_STORAGE_KEY, JSON.stringify(projections));
     }
 
     public getProjections(): ProjectionModel[]
     {
-        const data: string | null = localStorage.getItem(this.PROJECTIONS_STORAGE_KEY);
-
+        const data = localStorage.getItem(this.PROJECTIONS_STORAGE_KEY);
         return data ? JSON.parse(data) : [];
     }
 
