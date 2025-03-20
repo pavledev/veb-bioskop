@@ -45,9 +45,9 @@ export class MovieReviewDialogComponent
         this.movieId = data.movieId;
 
         this.movieReviewForm = this.formBuilder.group({
-            title: ['', [Validators.required]],
-            content: ['', [Validators.required]],
-            rating: [null, [Validators.required]]
+            title: ['', Validators.required],
+            content: ['', Validators.required],
+            rating: [null, Validators.required]
         });
     }
 
