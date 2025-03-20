@@ -4,7 +4,7 @@ import { CartItemModel } from '../models/cart.item.model';
 @Injectable()
 export class CartService
 {
-    private readonly CART_STORAGE_KEY = 'cartItems';
+    private readonly CART_STORAGE_KEY = 'cart';
 
     addToCart(item: CartItemModel): void
     {
