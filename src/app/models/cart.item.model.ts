@@ -1,7 +1,7 @@
 export interface CartItemModel
 {
-    posterPath: string;
     title: string;
+    posterPath: string;
     cinemaLocation: string;
     projectionDate: string;
     projectionTime: string;
