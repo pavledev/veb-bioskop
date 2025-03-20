@@ -5,8 +5,8 @@ export interface CartItemModel
     cinemaLocation: string;
     projectionDate: string;
     projectionTime: string;
+    hall: string;
     ticketCount: number;
     technology: string;
     price: number;
-    hall: string;
 }
