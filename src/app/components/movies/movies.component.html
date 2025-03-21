@@ -160,7 +160,7 @@
                                         {{ movie.title }}
                                     </a>
                                 </p>
-                                <p>Početak prikazivanja:</p>
+                                <p>Početak prikazivanja: {{ movie.startDate | date:'dd.MM.yyyy' }}</p>
                             </mat-card-content>
                             <mat-card-actions>
 

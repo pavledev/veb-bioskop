@@ -34,6 +34,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { CartItemModel } from '../../models/cart.item.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CartService } from '../../services/cart.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-movies',
@@ -53,7 +54,8 @@ import { CartService } from '../../services/cart.service';
         FormsModule,
         MatDatepickerModule,
         MatSelectModule,
-        MatInputModule
+        MatInputModule,
+        DatePipe
     ],
     templateUrl: './movies.component.html',
     styleUrl: './movies.component.css',
@@ -349,15 +351,8 @@ export class MoviesComponent implements OnInit, OnDestroy
     addToCart(movie: MovieModel): void
     {
         const cartItem: CartItemModel = {
-            posterPath: movie.posterPath,
             title: movie.title,
-            cinemaLocation: '',
-            projectionDate: '',
-            projectionTime: '',
-            ticketCount: 1,
-            technology: '',
-            price: 0,
-            hall: ''
+            posterPath: movie.posterPath
         };
 
         this.cartService.addToCart(cartItem);
