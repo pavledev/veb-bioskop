@@ -10,7 +10,7 @@ export class ProjectionService
 
     private readonly PROJECTIONS_STORAGE_KEY = 'projections';
     private readonly hallCount = 12;
-    private readonly maxTicketsPerHall = 100;
+    private readonly maxTicketsPerReservation = 6;
     private readonly minPrice = 500;
     private readonly maxPrice = 1000;
     private readonly projectionInterval = 150;
@@ -56,7 +56,7 @@ export class ProjectionService
 
     private generateHalls(): string[]
     {
-        return Array.from({ length: this.hallCount }, (_, index) => `Hall ${index + 1}`);
+        return Array.from({ length: this.hallCount }, (_, index) => `Sala ${index + 1}`);
     }
 
     private generateHallTimePairs(): { hall: string, time: string }[]
@@ -107,9 +107,10 @@ export class ProjectionService
             });
 
             return {
+                movieId: movie.id,
                 title: movie.title,
                 price: this.generateRandomPrice(),
-                maxTicketCount: this.maxTicketsPerHall,
+                maxTicketCount: this.maxTicketsPerReservation,
                 times: sortedTimes,
                 halls: sortedHalls,
                 technologies: movie.availableTechCMS.map((technology: any): string[] => technology.Description.replace(/<[^>]+>/g, ''))
