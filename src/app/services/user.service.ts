@@ -104,4 +104,38 @@ export class UserService
 
         return querySnapshot.empty || querySnapshot.docs[0].id === userId;
     }
+
+    async addReviewIdToUser(userId: string, reviewId: string): Promise<string | null>
+    {
+        const userDocReference = doc(this.firestore, `users/${userId}`);
+        const userDocSnapshot = await getDoc(userDocReference);
+
+        const userData = userDocSnapshot.data() as UserModel;
+        const reviews = userData.reviews ? userData.reviews : [];
+
+        reviews.push(reviewId);
+
+        const [error] = await this.utilityService.catchError(updateDoc(userDocReference, {
+            reviews: reviews
+        }));
+
+        return error ? 'Došlo je do greške prilikom ažuriranja korisničkog profila!' : null;
+    }
+
+    async addReservationIdToUser(userId: string, reservationId: string): Promise<string | null>
+    {
+        const userDocReference = doc(this.firestore, `users/${userId}`);
+        const userDocSnapshot = await getDoc(userDocReference);
+
+        const userData = userDocSnapshot.data() as UserModel;
+        const reservations = userData.reservations ? userData.reservations : [];
+
+        reservations.push(reservationId);
+
+        const [error] = await this.utilityService.catchError(updateDoc(userDocReference, {
+            reservations: reservations
+        }));
+
+        return error ? 'Došlo je do greške prilikom ažuriranja korisničkog profila!' : null;
+    }
 }
