@@ -36,7 +36,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     ],
     templateUrl: './movie-details.component.html',
     styleUrl: './movie-details.component.css',
-    providers: [MovieService, CartService]
+    providers: [MovieService, CartService, MovieReviewService]
 })
 export class MovieDetailsComponent implements OnInit, OnDestroy
 {
@@ -53,12 +53,12 @@ export class MovieDetailsComponent implements OnInit, OnDestroy
     public reviews$: Observable<(MovieReviewModel & { username: string | null })[]> = new Observable();
     private unsubscribe$: Subject<void> = new Subject<void>();
 
-    @ViewChild('galleryContainer', { static: false }) galleryContainer!: ElementRef;
+    @ViewChild('galleryContainer', { static: false }) public galleryContainer!: ElementRef;
 
-    averageRating: number = 0;
-    ratingDistribution: { stars: number, count: number }[] = [];
-    totalReviews: number = 0;
-    maxRatingCount: number = 0;
+    public averageRating: number = 0;
+    public ratingDistribution: { stars: number, count: number }[] = [];
+    public totalReviews: number = 0;
+    public maxRatingCount: number = 0;
 
     async ngOnInit()
     {
@@ -261,15 +261,8 @@ export class MovieDetailsComponent implements OnInit, OnDestroy
         }
 
         const cartItem: CartItemModel = {
-            posterPath: this.movie.posterPath,
             title: this.movie.title,
-            cinemaLocation: '',
-            projectionDate: '',
-            projectionTime: '',
-            ticketCount: 1,
-            technology: '',
-            price: 0,
-            hall: ''
+            posterPath: this.movie.posterPath
         };
 
         this.cartService.addToCart(cartItem);

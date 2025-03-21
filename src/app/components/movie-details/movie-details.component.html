@@ -82,24 +82,27 @@
                             <div class="review-title">Prosečna ocena</div>
                             <div class="review-value">{{ averageRating.toFixed(1) }}/10</div>
                             <div class="rating-stars">
-                                <mat-icon *ngFor="let star of getStarIcons()"
-                                          [fontIcon]="star"></mat-icon>
+                                @for (star of getStarIcons(); track star) {
+                                    <mat-icon fontIcon="star"/>
+                                }
                             </div>
                         </div>
 
                         <div class="review-summary-item rating-breakdown">
-                            <div *ngFor="let rating of getRatingDistribution()" class="rating-row">
-                                <span class="rating-label">{{ rating.stars }}</span>
-                                <div class="rating-bar">
-                                    <div class="rating-fill"
-                                         [ngStyle]="{ 'width': rating.percentage + '%' }">
+                            @for (rating of getRatingDistribution(); track rating) {
+                                <div class="rating-row">
+                                    <span class="rating-label">{{ rating.stars }}</span>
+                                    <div class="rating-bar">
+                                        <div class="rating-fill"
+                                             [ngStyle]="{ 'width': rating.percentage + '%' }">
+                                        </div>
+                                    </div>
+                                    <div class="rating-values">
+                                        <span class="rating-percentage">{{ rating.percentage }}%</span>
+                                        <span class="rating-count">({{ rating.count }})</span>
                                     </div>
                                 </div>
-                                <div class="rating-values">
-                                    <span class="rating-percentage">{{ rating.percentage }}%</span>
-                                    <span class="rating-count">({{ rating.count }})</span>
-                                </div>
-                            </div>
+                            }
                         </div>
 
                         <div class="review-action">
@@ -113,36 +116,40 @@
                     </div>
 
                     <div class="reviews">
-                        <div *ngIf="(reviews$ | async)?.length === 0">
-                            <p>Nema recenzija za ovaj film.</p>
-                        </div>
+                        @if ((reviews$ | async)?.length === 0) {
+                            <div>
+                                <p>Nema recenzija za ovaj film.</p>
+                            </div>
+                        }
 
-                        <mat-card *ngFor="let review of reviews$ | async" class="review" appearance="outlined">
-                            <mat-card-header>
-                                <img mat-card-avatar [src]="['https://ui-avatars.com/api/?name=pavle']">
-                                <mat-card-title>{{ review.username }}</mat-card-title>
-                                <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-                            </mat-card-header>
+                        @for (review of reviews$ | async; track review) {
+                            <mat-card class="review" appearance="outlined">
+                                <mat-card-header>
+                                    <img mat-card-avatar [src]="'https://ui-avatars.com/api/?name=' + review.username">
+                                    <mat-card-title>{{ review.username }}</mat-card-title>
+                                    <mat-card-subtitle>{{ review.createdAt | date:'dd.MM.yyyy' }}</mat-card-subtitle>
+                                </mat-card-header>
 
-                            <mat-card-content>
-                                <p>
-                                    {{ review.title }}
-                                </p>
-                                <p>
-                                    {{ review.content }}
-                                </p>
-                            </mat-card-content>
-                            <mat-card-actions>
-                                <button mat-button>
-                                    <mat-icon fontIcon="edit"/>
-                                    Izmeni
-                                </button>
-                                <button mat-button>
-                                    <mat-icon fontIcon="delete"/>
-                                    Obriši
-                                </button>
-                            </mat-card-actions>
-                        </mat-card>
+                                <mat-card-content>
+                                    <p>
+                                        {{ review.title }}
+                                    </p>
+                                    <p>
+                                        {{ review.content }}
+                                    </p>
+                                </mat-card-content>
+                                <mat-card-actions>
+                                    <button mat-button>
+                                        <mat-icon fontIcon="edit"/>
+                                        Izmeni
+                                    </button>
+                                    <button mat-button>
+                                        <mat-icon fontIcon="delete"/>
+                                        Obriši
+                                    </button>
+                                </mat-card-actions>
+                            </mat-card>
+                        }
 
                     </div>
                 </div>
