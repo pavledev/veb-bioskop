@@ -8,20 +8,20 @@
             </div>
         }
         @case ('error') {
-            <div class="icon-wrapper error">
-            <span class="x-mark">
-                <span class="x-line x-left"></span>
-                <span class="x-line x-right"></span>
-            </span>
+            <div class="icon-wrapper error flex-container">
+                <span class="x-mark">
+                    <span class="x-mark-line-left"></span>
+                    <span class="x-mark-line-right"></span>
+                </span>
             </div>
         }
         @case ('warning') {
-            <div class="icon-wrapper warning">
+            <div class="icon-wrapper warning flex-container">
                 <div class="icon-content">!</div>
             </div>
         }
         @case ('info') {
-            <div class="icon-wrapper info">
+            <div class="icon-wrapper info flex-container">
                 <div class="icon-content">i</div>
             </div>
         }
@@ -32,13 +32,13 @@
 </div>
 
 <div mat-dialog-actions align="end">
-    <button mat-flat-button mat-dialog-close>
+    <button mat-flat-button mat-dialog-close (click)="confirm()">
         <mat-icon fontIcon="check"/>
         Potvrdi
     </button>
 
     @if (data.showCancelButton) {
-        <button mat-stroked-button (click)="dialogRef.close(false)">
+        <button mat-stroked-button (click)="cancel()">
             <mat-icon fontIcon="close"/>
             Otkaži
         </button>

@@ -23,20 +23,13 @@ export class AlertDialogComponent
     {
     }
 
-    getIcon(): string
+    confirm(): void
     {
-        switch (this.data.type)
-        {
-            case 'success':
-                return 'check';
-            case 'error':
-                return 'close';
-            case 'warning':
-                return 'priority_high';
-            case 'info':
-                return 'info';
-            default:
-                return 'info';
-        }
+        this.dialogRef.close(true);
+    }
+
+    cancel(): void
+    {
+        this.dialogRef.close(false);
     }
 }
