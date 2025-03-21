@@ -1,0 +1,9 @@
+<div class="quantity-selector">
+    <button mat-icon-button type="button" (click)="decrement()" [disabled]="value <= min">
+        <mat-icon>remove</mat-icon>
+    </button>
+    <span class="value">{{ value }}</span>
+    <button mat-icon-button type="button" (click)="increment()" [disabled]="value >= max">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
