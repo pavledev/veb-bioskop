@@ -9,14 +9,10 @@
             <mat-icon fontIcon="home"/>
             Naslovna
         </a>
-        <a routerLink="/filmovi" mat-button>
-            <mat-icon fontIcon="movie"/>
-            Filmovi
-        </a>
-        <a routerLink="/airlines" mat-button>
+        <!--<a routerLink="/repertoire" mat-button>
             <mat-icon fontIcon="calendar_month"/>
             Repertoar
-        </a>
+        </a>-->
 
         @if (user$ | async; as user) {
             <button mat-button [matMenuTriggerFor]="userMenu">
@@ -34,10 +30,10 @@
                     <mat-icon fontIcon="movie"/>
                     Rezervacije
                 </button>
-                <button mat-menu-item routerLink="/recenzije">
+                <!--<button mat-menu-item routerLink="/recenzije">
                     <mat-icon fontIcon="reviews"/>
                     Recenzije
-                </button>
+                </button>-->
                 <button mat-menu-item (click)="logout()">
                     <mat-icon fontIcon="logout"/>
                     Odjava
