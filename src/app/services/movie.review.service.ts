@@ -1,30 +1,29 @@
-import { Injectable, inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
-    Firestore,
     collection,
-    doc,
-    setDoc,
-    updateDoc,
+    collectionData,
     deleteDoc,
-    getDocs,
+    doc,
+    Firestore,
     query,
-    where,
+    setDoc,
     Timestamp,
-    collectionData
+    updateDoc,
+    where
 } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
 import { UtilityService } from './utility.service';
 import { MovieReviewModel } from '../models/movie.review.model';
 import { User } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
+import { UserService } from './user.service';
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class MovieReviewService
 {
     private firestore: Firestore = inject(Firestore);
     private authService: AuthService = inject(AuthService);
+    private userService: UserService = inject(UserService);
     private utilityService: UtilityService = inject(UtilityService);
 
     async addReview(movieId: string, title: string, content: string, rating: number): Promise<string | null>
@@ -58,7 +57,7 @@ export class MovieReviewService
             return 'Došlo je do greške prilikom kreiranja recenzije!';
         }
 
-        return null;
+        return await this.userService.addReviewIdToUser(userId, reviewReference.id);
     }
 
     getReviewsByMovieId(movieId: string): Observable<MovieReviewModel[]>
@@ -69,14 +68,16 @@ export class MovieReviewService
         return collectionData(query1, { idField: 'id' }) as Observable<MovieReviewModel[]>;
     }
 
-    async updateReview(reviewId: string, updatedData: Partial<MovieReviewModel>): Promise<boolean>
+    /*async updateReview(reviewId: string, updatedData: Partial<MovieReviewModel>): Promise<boolean>
     {
         const reviewRef = doc(this.firestore, `reviews/${reviewId}`);
-        const [error] = await this.utilityService.catchError(updateDoc(reviewRef, { ...updatedData, updatedAt: Timestamp.now().toDate().toISOString() }));
+        const [error] = await this.utilityService.catchError(updateDoc(reviewRef, {
+            ...updatedData,
+            updatedAt: Timestamp.now().toDate().toISOString()
+        }));
 
         if (error)
         {
-            console.error("Error updating review:", error);
             return false;
         }
 
@@ -90,10 +91,9 @@ export class MovieReviewService
 
         if (error)
         {
-            console.error("Error deleting review:", error);
             return false;
         }
 
         return true;
-    }
+    }*/
 }
