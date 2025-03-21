@@ -6,88 +6,115 @@
                 @for (cartItem of cartItems; track cartItem; let index = $index) {
                     <mat-card class="cart-item" appearance="outlined">
                         <mat-card-content>
-                            <div class="image-container">
-                                <a [routerLink]="['/filmovi', utilityService.getSlug(cartItem.title)]">
-                                    <img mat-card-image src="{{cartItem.posterPath}}" alt="{{cartItem.title}}">
-                                </a>
-                            </div>
-                            <div class="cart-item-details">
+                            <div>
+                                <div class="image-container">
+                                    <a [routerLink]="['/filmovi', utilityService.getSlug(cartItem.title)]">
+                                        <img mat-card-image src="{{cartItem.posterPath}}" alt="{{cartItem.title}}">
+                                    </a>
+                                </div>
                                 <div>
                                     <p class="movie-title">
                                         <a [routerLink]="['/filmovi', utilityService.getSlug(cartItem.title)]">
                                             {{ cartItem.title }}
                                         </a>
                                     </p>
-                                    <p>Cena:</p>
+                                    <p>Cena: {{ projections[index].price }} RSD</p>
                                 </div>
-                                <div>
-                                    <form [formGroup]="cartForm">
-                                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                                            <mat-label>Lokacija</mat-label>
-                                            <mat-icon matPrefix fontIcon="person"/>
-                                            <mat-select formControlName="cinemaLocation">
+                            </div>
+                            <div class="cart-item-details">
+                                <form [formGroup]="cartForms[index]">
+                                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                        <mat-label>Lokacija</mat-label>
+                                        <mat-icon matPrefix fontIcon="person"/>
+                                        <mat-select formControlName="cinemaLocation">
 
-                                                @for (cinemaLocation of cinemaLocations; track cinemaLocation) {
-                                                    <mat-option [value]="cinemaLocation">{{ cinemaLocation }}
-                                                    </mat-option>
-                                                }
+                                            @for (cinemaLocation of cinemaLocations; track cinemaLocation) {
+                                                <mat-option [value]="cinemaLocation">{{ cinemaLocation }}
+                                                </mat-option>
+                                            }
 
-                                            </mat-select>
-                                        </mat-form-field>
-                                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                                            <mat-label>Datum projekcije</mat-label>
-                                            <mat-icon matPrefix fontIcon="calendar_today"/>
-                                            <mat-select formControlName="projectionDate">
+                                        </mat-select>
 
-                                                @for (projectionDate of projectionDates; track projectionDate) {
-                                                    <mat-option [value]="projectionDate">{{ projectionDate }}
-                                                    </mat-option>
-                                                }
+                                        @if (cartForms[index].controls['cinemaLocation'].hasError('required')) {
+                                            <mat-error>Lokacija je obavezna!</mat-error>
+                                        }
 
-                                            </mat-select>
-                                        </mat-form-field>
-                                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                                            <mat-label>Vreme projekcije</mat-label>
-                                            <mat-icon matPrefix fontIcon="schedule"/>
-                                            <mat-select formControlName="projectionTime">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                        <mat-label>Datum projekcije</mat-label>
+                                        <mat-icon matPrefix fontIcon="calendar_today"/>
+                                        <mat-select formControlName="projectionDate">
 
-                                                @for (projectionTime of projections[index].times; track projectionTime) {
-                                                    <mat-option [value]="projectionTime">{{ projectionTime }}
-                                                    </mat-option>
-                                                }
+                                            @for (projectionDate of projectionDates; track projectionDate) {
+                                                <mat-option [value]="projectionDate">{{ projectionDate }}
+                                                </mat-option>
+                                            }
 
-                                            </mat-select>
-                                        </mat-form-field>
-                                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                                            <mat-label>Sala</mat-label>
-                                            <mat-icon matPrefix fontIcon="movie"/>
-                                            <mat-select formControlName="hall">
+                                        </mat-select>
 
-                                                @for (hall of projections[index].halls; track hall) {
-                                                    <mat-option [value]="hall">{{ hall }}
-                                                    </mat-option>
-                                                }
+                                        @if (cartForms[index].controls['projectionDate'].hasError('required')) {
+                                            <mat-error>Datum projekcije je obavezan!</mat-error>
+                                        }
 
-                                            </mat-select>
-                                        </mat-form-field>
-                                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                                            <mat-label>Sala</mat-label>
-                                            <mat-icon matPrefix fontIcon="movie"/>
-                                            <mat-select formControlName="eyeglasses">
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                        <mat-label>Vreme projekcije</mat-label>
+                                        <mat-icon matPrefix fontIcon="schedule"/>
+                                        <mat-select formControlName="projectionTime">
 
-                                                @for (technology of projections[index].technologies; track technology) {
-                                                    <mat-option [value]="technology">{{ technology }}
-                                                    </mat-option>
-                                                }
+                                            @for (projectionTime of projections[index].times; track projectionTime) {
+                                                <mat-option [value]="projectionTime">{{ projectionTime }}
+                                                </mat-option>
+                                            }
 
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </form>
-                                </div>
+                                        </mat-select>
+
+                                        @if (cartForms[index].controls['projectionTime'].hasError('required')) {
+                                            <mat-error>Vreme projekcije je obavezno!</mat-error>
+                                        }
+
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                        <mat-label>Sala</mat-label>
+                                        <mat-icon matPrefix fontIcon="chair"/>
+                                        <mat-select formControlName="hall">
+
+                                            @for (hall of projections[index].halls; track hall) {
+                                                <mat-option [value]="hall">{{ hall }}
+                                                </mat-option>
+                                            }
+
+                                        </mat-select>
+
+                                        @if (cartForms[index].controls['hall'].hasError('required')) {
+                                            <mat-error>Sala je obavezna!</mat-error>
+                                        }
+
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                        <mat-label>Tehnologija</mat-label>
+                                        <mat-icon matPrefix fontIcon="movie"/>
+                                        <mat-select formControlName="technology">
+
+                                            @for (technology of projections[index].technologies; track technology) {
+                                                <mat-option [value]="technology">{{ technology }}
+                                                </mat-option>
+                                            }
+
+                                        </mat-select>
+
+                                        @if (cartForms[index].controls['technology'].hasError('required')) {
+                                            <mat-error>Tehnologija je obavezna!</mat-error>
+                                        }
+
+                                    </mat-form-field>
+                                    <app-quantity-selector formControlName="ticketCount" [min]="1"
+                                                           [max]="6"></app-quantity-selector>
+                                </form>
                             </div>
                         </mat-card-content>
                         <mat-card-actions>
-                            <button mat-button>
+                            <button mat-button (click)="openAlertDialog(index)">
                                 <mat-icon fontIcon="delete"/>
                                 Ukloni
                             </button>
@@ -103,19 +130,30 @@
             </div>
         }
 
-        <mat-card class="order-summary">
+        <mat-card class="reservation-summary">
             <mat-card-content>
-                <h3>Pregled narudžbine</h3>
+                <h3>Pregled rezervacija</h3>
                 <div class="summary-item">
-                    <span>Narudžbina:</span>
-                    <span>0.00 RSD</span>
+                    <span>Cena karata:</span>
+                    <span>{{ getTotalPrice() }} RSD</span>
                 </div>
-                <div class="summary-item">
-                    <span>Troškovi dostave:</span>
-                    <span>0.00 RSD</span>
-                </div>
-                <h3 class="total-amount">Iznos kupovine: <b>0.00 RSD</b></h3>
-                <button mat-button color="primary" class="continue-btn">Nastavite</button>
+                <h4 class="total-amount">Ukupna cena: <b>{{ getTotalPrice() }} RSD</b></h4>
+                <button mat-flat-button color="primary" class="reserve-btn" (click)="addReservations()">
+                    <ng-container
+                        ngProjectAs=".material-icons:not([iconPositionEnd]), mat-icon:not([iconPositionEnd]), [matButtonIcon]:not([iconPositionEnd])">
+
+                        @if (isCreatingReservations) {
+                            <mat-spinner [mode]="'indeterminate'" diameter="30"/>
+                        } @else {
+                            <mat-icon fontIcon="add"/>
+                        }
+
+                    </ng-container>
+
+                    @if (!isCreatingReservations) {
+                        Rezerviši
+                    }
+                </button>
             </mat-card-content>
         </mat-card>
     </div>
